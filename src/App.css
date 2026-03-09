@@ -408,3 +408,85 @@
   backdrop-filter: blur(5px);
 }
 
+/* --- MOTIVATIONAL QUOTE --- */
+.motivational-quote {
+  color: rgba(255, 255, 255, 0.75);
+  font-style: italic;
+  font-size: 1.05rem;
+  text-align: center;
+  max-width: 540px;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+}
+
+@keyframes fadeInQuote {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in-quote {
+  animation: fadeInQuote 1.2s ease-out forwards;
+}
+
+/* --- PAGE NAVIGATION BUTTONS --- */
+.page-nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  padding: 40px 20px;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  gap: 16px;
+}
+
+.page-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+}
+
+.page-nav-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
+  background: linear-gradient(135deg, #818cf8, #a78bfa);
+}
+
+.page-nav-btn:active {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.page-nav-spacer {
+  flex: 1;
+}
+
+@media (max-width: 576px) {
+  .page-nav-container {
+    flex-direction: column;
+    gap: 12px;
+    padding: 30px 16px;
+  }
+  .page-nav-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 24px;
+  }
+  .page-nav-spacer {
+    display: none;
+  }
+}
+

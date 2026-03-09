@@ -37,13 +37,56 @@ function SOSButton() {
   );
 }
 
+/* ---------------- PAGE NAVIGATION BUTTONS ---------------- */
+function PageNavigation({ prevPath, prevLabel, nextPath, nextLabel }) {
+  const navigate = useNavigate();
+  return (
+    <div className="page-nav-container">
+      {prevPath ? (
+        <button className="page-nav-btn" onClick={() => navigate(prevPath)}>
+          ← {prevLabel || "Previous"}
+        </button>
+      ) : <div className="page-nav-spacer" />}
+      {nextPath ? (
+        <button className="page-nav-btn" onClick={() => navigate(nextPath)}>
+          {nextLabel || "Next"} →
+        </button>
+      ) : <div className="page-nav-spacer" />}
+    </div>
+  );
+}
+
+/* ---------------- MOTIVATIONAL QUOTES ---------------- */
+const motivationalQuotes = [
+  "Your mental health is a priority. Your happiness is essential. Your self-care is a necessity.",
+  "It's okay to not be okay, as long as you are not giving up.",
+  "You don't have to control your thoughts. You just have to stop letting them control you.",
+  "Healing takes time, and asking for help is a courageous step.",
+  "The strongest people are those who win battles we know nothing about.",
+  "Be gentle with yourself. You're doing the best you can.",
+  "You are not your illness. You have a name, a history, a personality. Staying yourself is part of the battle.",
+  "Every day may not be good, but there is something good in every day.",
+  "Self-care is not selfish. You cannot serve from an empty vessel.",
+  "Breathe. Let go. And remind yourself that this very moment is the only one you know you have for sure.",
+  "Mental health is not a destination, but a process. It's about how you drive, not where you're going.",
+  "There is hope, even when your brain tells you there isn't.",
+  "You are allowed to feel messed up and inside out. It doesn't mean you're defective. It just means you're human.",
+  "One small crack does not mean that you are broken. It means you were put to the test and you didn't fall apart.",
+  "What mental health needs is more sunlight, more candor, and more unashamed conversation.",
+  "Almost everything will work again if you unplug it for a few minutes, including you.",
+  "Your present circumstances don't determine where you can go; they merely determine where you start.",
+  "The only journey is the journey within."
+];
+
 /* ---------------- LANDING PAGE ---------------- */
 function Landing() {
   const navigate = useNavigate();
+  const [quote] = useState(() => motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)]);
   return (
-    <div className="hero-wrapper">
+    <div className="hero-wrapper" style={{ flexDirection: "column", gap: "30px" }}>
       <div className="glass-card text-center fade-in">
-        <h2 className="mb-5">Mental Health Wellbeing & Prevention</h2>
+        <h2 className="mb-2">Klever Klues</h2>
+        <p className="text-muted mb-5" style={{ fontSize: "1.05rem", fontStyle: "italic" }}>Find the clues to your inner peace.</p>
         <div className="d-flex flex-column gap-3">
           <button className="btn btn-primary btn-premium" onClick={() => navigate("/user")}>Enter as User</button>
           <button className="btn btn-success btn-premium" style={{ background: "rgba(255,255,255,0.2)", color: "#1e293b", backdropFilter: "blur(10px)" }} onClick={() => navigate("/consultant")}>Join as Consultant</button>
@@ -52,6 +95,10 @@ function Landing() {
           </div>
         </div>
       </div>
+      <div className="motivational-quote fade-in-quote">
+        "{quote}"
+      </div>
+      <PageNavigation nextPath="/user" nextLabel="Next" />
     </div>
   );
 }
@@ -76,11 +123,11 @@ function UserAuth({ setAuthUser }) {
   };
 
   return (
-    <div className="hero-wrapper">
+    <div className="hero-wrapper" style={{ flexDirection: "column" }}>
       <div className="glass-card fade-in">
         <div className="text-center mb-4">
-          <h3 className="mt-2">Welcome</h3>
-          <p className="text-muted small">Access your personal wellbeing dashboard</p>
+          <h3 className="mt-2">Welcome to Klever Klues</h3>
+          <p className="text-muted small">Step into your personal wellbeing space.</p>
         </div>
 
         <div className="d-flex justify-content-center mb-4 bg-light rounded-pill p-1" style={{ border: "1px solid #e2e8f0" }}>
@@ -106,6 +153,10 @@ function UserAuth({ setAuthUser }) {
                 <input type="tel" name="phone" className="form-control" onChange={handleChange} />
               </div>
               <div className="mb-3">
+                <label className="small text-muted mb-1 fw-bold">Alternate Phone Number</label>
+                <input type="tel" name="alternatePhone" className="form-control" onChange={handleChange} />
+              </div>
+              <div className="mb-3">
                 <label className="small text-muted mb-1 fw-bold">Preferred Language</label>
                 <div className="position-relative">
                   <select name="language" className="form-control" onChange={handleChange} style={{ appearance: "none", WebkitAppearance: "none", MozAppearance: "none", paddingRight: "30px" }}>
@@ -128,9 +179,10 @@ function UserAuth({ setAuthUser }) {
             <label className="small text-muted mb-1 fw-bold">{mode === "register" ? "Create Password" : "Password"}</label>
             <input type="password" name="password" className="form-control" placeholder="••••••••" onChange={handleChange} required />
           </div>
-          <button className="btn btn-primary btn-premium w-100">{mode === "login" ? "Secure Login" : "Create Account"}</button>
+          <button className="btn btn-primary btn-premium w-100">{mode === "login" ? "Login" : "Create Account"}</button>
         </form>
       </div>
+      <PageNavigation prevPath="/" prevLabel="Previous" nextPath="/consultant" nextLabel="Next" />
     </div>
   );
 }
@@ -157,10 +209,14 @@ function UserDashboard({ authUser, onLogout, consultants, appointments, setAppoi
   const approvedConsultants = consultants.filter(c => c.status === "Approved");
 
   return (
-    <div className="layout-app fade-in">
+    <div className="layout-app fade-in" style={{
+      background: "linear-gradient(-45deg, #6366f1, #8b5cf6, #ec4899, #f43f5e)",
+      backgroundSize: "400% 400%",
+      animation: "gradientPan 15s ease infinite"
+    }}>
       <div className="layout-sidebar">
         <div className="sidebar-logo">
-          Mental Health Wellbeing
+          Klever Klues
         </div>
         <div className={`sidebar-nav-item ${view === "home" ? "active" : ""}`} onClick={() => setView("home")}>
           Overview
@@ -434,6 +490,7 @@ function UserDashboard({ authUser, onLogout, consultants, appointments, setAppoi
           </div>
         )}
 
+        <PageNavigation prevPath="/user" prevLabel="Previous" nextPath="/consultant" nextLabel="Next" />
       </div>
     </div>
   );
@@ -465,7 +522,7 @@ function ConsultantRegistration({ consultants, setConsultants }) {
   );
 
   return (
-    <div className="hero-wrapper">
+    <div className="hero-wrapper" style={{ flexDirection: "column" }}>
       <div className="glass-card fade-in" style={{ maxWidth: "600px" }}>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -474,6 +531,10 @@ function ConsultantRegistration({ consultants, setConsultants }) {
               <div className="col-12">
                 <label className="small fw-bold text-muted mb-1">Full Name</label>
                 <input type="text" className="form-control" onChange={e => setFormData({ ...formData, fullName: e.target.value })} required />
+              </div>
+              <div className="col-12">
+                <label className="small fw-bold text-muted mb-1">Email ID</label>
+                <input type="email" className="form-control" placeholder="you@domain.com" onChange={e => setFormData({ ...formData, email: e.target.value })} required />
               </div>
               <div className="col-12">
                 <label className="small fw-bold text-muted mb-1">Address</label>
@@ -558,6 +619,7 @@ function ConsultantRegistration({ consultants, setConsultants }) {
           <button className="btn btn-primary btn-premium w-100 mt-2">Submit Application</button>
         </form>
       </div>
+      <PageNavigation prevPath="/user/dashboard" prevLabel="Previous" nextPath="/admin" nextLabel="Next" />
     </div>
   );
 }
@@ -600,7 +662,7 @@ function Admin({ consultants, setConsultants }) {
           Settings
         </div>
         <div style={{ marginTop: "auto", paddingTop: "40px" }}>
-          <button className="btn btn-outline-light w-100" onClick={() => navigate("/")}>Exit Command</button>
+          <button className="btn btn-outline-light w-100" onClick={() => navigate("/")}>Exit</button>
         </div>
       </div>
 
@@ -638,12 +700,12 @@ function Admin({ consultants, setConsultants }) {
             <table className="table-premium">
               <thead>
                 <tr>
-                  <th style={{ width: "15%", whiteSpace: "nowrap" }}>Name</th>
-                  <th style={{ width: "20%", whiteSpace: "nowrap" }}>Email</th>
-                  <th style={{ width: "12%", whiteSpace: "nowrap" }}>Status</th>
-                  <th style={{ width: "28%", whiteSpace: "nowrap" }}>Action</th>
-                  <th style={{ width: "20%", whiteSpace: "nowrap" }}>Feedback</th>
-                  <th className="text-end" style={{ width: "5%", whiteSpace: "nowrap" }}>View</th>
+                  <th style={{ width: "15%", whiteSpace: "nowrap", color: "#1e293b" }}>Name</th>
+                  <th style={{ width: "20%", whiteSpace: "nowrap", color: "#1e293b" }}>Email</th>
+                  <th style={{ width: "12%", whiteSpace: "nowrap", color: "#1e293b" }}>Status</th>
+                  <th style={{ width: "28%", whiteSpace: "nowrap", color: "#1e293b" }}>Action</th>
+                  <th style={{ width: "20%", whiteSpace: "nowrap", color: "#1e293b" }}>Feedback</th>
+                  <th className="text-end" style={{ width: "5%", whiteSpace: "nowrap", color: "#1e293b" }}>View</th>
                 </tr>
               </thead>
               <tbody>
@@ -685,6 +747,7 @@ function Admin({ consultants, setConsultants }) {
             </table>
           </div>
         </div>
+        <PageNavigation prevPath="/consultant" prevLabel="Previous" />
       </div>
     </div>
   );
