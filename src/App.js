@@ -20,7 +20,7 @@ function SOSButton() {
       {showModal && (
         <div className="sos-modal-overlay">
           <div className="glass-card text-center fade-in" style={{ maxWidth: "400px" }}>
-            <div style={{ fontSize: "3rem" }} className="mb-3">🚨</div>
+            <div style={{ fontSize: "3rem" }} className="mb-3"></div>
             <h3 className="fw-bold text-danger mb-3">Emergency & SOS</h3>
             <p className="text-muted mb-4 small">
               This action will immediately alert the volunteer response network, connect to authorities, and initiate location-based emergency dispatch.
@@ -160,29 +160,29 @@ function UserDashboard({ authUser, onLogout, consultants, appointments, setAppoi
     <div className="layout-app fade-in">
       <div className="layout-sidebar">
         <div className="sidebar-logo">
-          <span>✨</span> Aura Wellbeing
+          Mental Health Wellbeing
         </div>
         <div className={`sidebar-nav-item ${view === "home" ? "active" : ""}`} onClick={() => setView("home")}>
-          <span>🏠</span> Overview
+          Overview
         </div>
         <div className={`sidebar-nav-item ${view === "book" ? "active" : ""}`} onClick={() => setView("book")}>
-          <span>📅</span> Book Session
+          Book Session
         </div>
         <div className={`sidebar-nav-item ${view === "prescriptions" ? "active" : ""}`} onClick={() => setView("prescriptions")}>
-          <span>📝</span> Plans & Targets
+          Plans & Targets
         </div>
         <div className={`sidebar-nav-item ${view === "forum" ? "active" : ""}`} onClick={() => setView("forum")}>
-          <span>💬</span> Community
+          Community
         </div>
         <div className={`sidebar-nav-item ${view === "resources" ? "active" : ""}`} onClick={() => setView("resources")}>
-          <span>📚</span> Resources
+          Resources
         </div>
         <div className={`sidebar-nav-item ${view === "assessments" ? "active" : ""}`} onClick={() => setView("assessments")}>
-          <span>🧠</span> Assessments
+          Assessments
         </div>
         <div style={{ marginTop: "auto", paddingTop: "40px" }}>
           <div className="sidebar-nav-item text-danger" onClick={onLogout}>
-            <span>🚪</span> Secure Logout
+            Logout
           </div>
         </div>
       </div>
@@ -190,7 +190,7 @@ function UserDashboard({ authUser, onLogout, consultants, appointments, setAppoi
       <div className="layout-main">
         <header className="d-flex justify-content-between align-items-center mb-5">
           <div>
-            <h2 className="mb-1 fw-bold" style={{ letterSpacing: "-0.02em" }}>Hello, {authUser.name.split(" ")[0]}</h2>
+            <h2 className="mb-1 fw-bold" style={{ letterSpacing: "-0.02em" }}>Hello</h2>
             <p className="text-muted m-0">Here is what's happening with your wellbeing today.</p>
           </div>
           <div className="d-flex align-items-center gap-3">
@@ -205,7 +205,7 @@ function UserDashboard({ authUser, onLogout, consultants, appointments, setAppoi
             <h5 className="mb-4 fw-bold">Upcoming Sessions</h5>
             {myAppointments.length === 0 ? (
               <div className="premium-card text-center py-5">
-                <div style={{ fontSize: "3rem", color: "#e2e8f0" }} className="mb-3">📅</div>
+                <div style={{ fontSize: "3rem", color: "#e2e8f0" }} className="mb-3"></div>
                 <h5 className="text-muted">No sessions scheduled</h5>
                 <button className="btn btn-primary btn-premium mt-3" onClick={() => setView("book")}>Book a Consultation</button>
               </div>
@@ -242,7 +242,7 @@ function UserDashboard({ authUser, onLogout, consultants, appointments, setAppoi
               {approvedConsultants.length === 0 ? <p className="text-muted">No specialists available currently.</p> : approvedConsultants.map(c => (
                 <div key={c.id} className="col-lg-4 col-md-6">
                   <div className="premium-card text-center">
-                    <div style={{ width: "80px", height: "80px", borderRadius: "50%", background: "#e0e7ff", margin: "0 auto 16px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "2rem" }}>👨‍⚕️</div>
+                    <div style={{ width: "80px", height: "80px", borderRadius: "50%", background: "#e0e7ff", margin: "0 auto 16px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "2rem" }}></div>
                     <h5 className="fw-bold">{c.name}</h5>
                     <p className="text-muted small mb-4">{c.qualification}</p>
 
@@ -270,7 +270,7 @@ function UserDashboard({ authUser, onLogout, consultants, appointments, setAppoi
           <div className="fade-in d-flex justify-content-center">
             <div className="premium-card w-100" style={{ maxWidth: "450px" }}>
               <div className="text-center mb-4">
-                <div style={{ fontSize: "2rem", marginBottom: "10px" }}>💳</div>
+                <div style={{ fontSize: "2rem", marginBottom: "10px" }}></div>
                 <h4 className="fw-bold">Secure Checkout</h4>
               </div>
               <div className="bg-light p-3 rounded-3 mb-4">
@@ -286,7 +286,7 @@ function UserDashboard({ authUser, onLogout, consultants, appointments, setAppoi
                 <div className="col-6"><input type="text" className="form-control" placeholder="MM/YY" /></div>
                 <div className="col-6"><input type="password" className="form-control" placeholder="CVV ***" /></div>
               </div>
-              <p className="text-center text-muted small mb-4">🔒 256-bit AES Encryption</p>
+
               <button className="btn btn-primary btn-premium w-100" onClick={handlePaymentSuccess}>Confirm Payment</button>
               <button className="btn btn-link text-muted w-100 mt-2 text-decoration-none" onClick={() => setView("book")}>Cancel</button>
             </div>
@@ -297,14 +297,14 @@ function UserDashboard({ authUser, onLogout, consultants, appointments, setAppoi
           <div className="fade-in consultation-wrapper row g-0">
             <div className="col-lg-8 video-stream">
               <div className="text-center">
-                <div style={{ fontSize: "3rem", opacity: 0.5 }} className="mb-2">📷</div>
+                <div style={{ fontSize: "3rem", opacity: 0.5 }} className="mb-2"></div>
                 <p className="text-white-50 m-0">End-to-End Encrypted Video</p>
               </div>
               <div className="video-controls-overlay">
-                <button className="ctrl-btn">🎤</button>
-                <button className="ctrl-btn">📹</button>
-                <button className="ctrl-btn">💻</button>
-                <button className="ctrl-btn danger" onClick={() => setView("home")}>☎</button>
+                <button className="ctrl-btn">Mic</button>
+                <button className="ctrl-btn">Video</button>
+                <button className="ctrl-btn">Screen</button>
+                <button className="ctrl-btn danger" onClick={() => setView("home")}>End</button>
               </div>
             </div>
             <div className="col-lg-4 chat-panel">
@@ -388,14 +388,14 @@ function UserDashboard({ authUser, onLogout, consultants, appointments, setAppoi
           <div className="fade-in">
             <div className="d-flex justify-content-between align-items-center mb-4">
               <h5 className="fw-bold m-0">Resources Centre</h5>
-              <button className="btn btn-outline-primary btn-sm fw-bold border-2" onClick={() => alert("Simulating mobile scan and storing securely locally...")}>Scan Local Docs 📱</button>
+              <button className="btn btn-outline-primary btn-sm fw-bold border-2" onClick={() => alert("Simulating mobile scan and storing securely locally...")}>Scan Local Docs</button>
             </div>
             <p className="text-muted mb-4 small">Access curated books, audio, and videos to aid your mental wellbeing journey.</p>
             <div className="row g-4 mb-4">
               {["Audio: Guided Relaxation", "Book: The Mindful Path", "Video: Managing Stress"].map((res, i) => (
                 <div key={i} className="col-lg-4 col-md-6">
                   <div className="premium-card text-center">
-                    <div style={{ fontSize: "2rem" }} className="mb-3">{res.includes("Audio") ? "🎧" : res.includes("Video") ? "▶️" : "📖"}</div>
+                    <div style={{ fontSize: "2rem" }} className="mb-3"></div>
                     <h6 className="fw-bold mb-2">{res}</h6>
                     <button className="btn btn-light btn-sm w-100 fw-bold border text-primary mt-2">Access Resource</button>
                   </div>
@@ -423,13 +423,13 @@ function UserDashboard({ authUser, onLogout, consultants, appointments, setAppoi
 
             <div className="premium-card border-top border-4 border-secondary bg-white">
               <div className="d-flex align-items-center gap-3 mb-3">
-                <div style={{ fontSize: "2rem" }}>🤖</div>
+                <div style={{ fontSize: "2rem" }}></div>
                 <div>
                   <h6 className="fw-bold mb-0">AI Content Generator</h6>
                   <p className="text-muted small m-0">Dynamic custom books, stories, and audio based on personality.</p>
                 </div>
               </div>
-              <button className="btn btn-secondary btn-premium w-100 mt-2" onClick={() => alert("AI generating personalized books, stories, and audio based on your recent 16-personality assessment...")}>Generate Customized Resources 🪄</button>
+              <button className="btn btn-secondary btn-premium w-100 mt-2" onClick={() => alert("AI generating personalized books, stories, and audio based on your recent 16-personality assessment...")}>Generate Customized Resources</button>
             </div>
           </div>
         )}
@@ -458,9 +458,7 @@ function ConsultantRegistration({ consultants, setConsultants }) {
   if (submitted) return (
     <div className="auth-wrapper">
       <div className="glass-card text-center fade-in">
-        <div style={{ fontSize: "3rem" }} className="mb-3">🧠</div>
-        <h3 className="fw-bold mb-3">AI Evaluation in Progress</h3>
-        <p className="text-muted mb-4">Our advanced models are verifying your credentials. An administrator will review the findings shortly.</p>
+        <h3 className="fw-bold mb-3">Please Wait</h3>
         <div className="spinner-border text-primary" role="status"><span className="visually-hidden">Loading...</span></div>
       </div>
     </div>
@@ -552,7 +550,7 @@ function ConsultantRegistration({ consultants, setConsultants }) {
             <div className="col-12">
               <label className="small fw-bold text-muted mb-1">Verification Documents</label>
               <div className="border border-dashed p-4 text-center rounded-3 bg-light cursor-pointer" style={{ borderColor: "#cbd5e1" }}>
-                <div style={{ fontSize: "2rem" }} className="text-muted mb-2">📄</div>
+                <div style={{ fontSize: "2rem" }} className="text-muted mb-2"></div>
                 <div className="small text-muted fw-medium">Click to upload PDFs of your licenses</div>
               </div>
             </div>
@@ -609,28 +607,28 @@ function Admin({ consultants, setConsultants }) {
       <div className="layout-main">
         <div className="row g-4 mb-5">
           <div className="col-md-3">
-             <div className="stat-box">
-                <div className="title">Pending</div>
-                <div className="value text-warning">{pending}</div>
-             </div>
+            <div className="stat-box">
+              <div className="title">Pending</div>
+              <div className="value text-warning">{pending}</div>
+            </div>
           </div>
           <div className="col-md-3">
-             <div className="stat-box">
-                <div className="title">Approve</div>
-                <div className="value text-success">{approved}</div>
-             </div>
+            <div className="stat-box">
+              <div className="title">Approve</div>
+              <div className="value text-success">{approved}</div>
+            </div>
           </div>
           <div className="col-md-3">
-             <div className="stat-box">
-                <div className="title">Reject</div>
-                <div className="value text-danger">{consultants.filter(c => c.status === "Rejected").length}</div>
-             </div>
+            <div className="stat-box">
+              <div className="title">Reject</div>
+              <div className="value text-danger">{consultants.filter(c => c.status === "Rejected").length}</div>
+            </div>
           </div>
           <div className="col-md-3">
-             <div className="stat-box">
-                <div className="title">Suspend</div>
-                <div className="value text-secondary">{consultants.filter(c => c.status === "Blacklisted" || c.status === "Suspended").length}</div>
-             </div>
+            <div className="stat-box">
+              <div className="title">Suspend</div>
+              <div className="value text-secondary">{consultants.filter(c => c.status === "Blacklisted" || c.status === "Suspended").length}</div>
+            </div>
           </div>
         </div>
 
@@ -658,12 +656,11 @@ function Admin({ consultants, setConsultants }) {
                       <div className="small text-muted text-break">{c.email}</div>
                     </td>
                     <td>
-                      <span className={`badge rounded-pill px-3 py-2 fw-medium ${
-                        c.status === "Approved" ? "bg-success bg-opacity-10 text-success" : 
-                        c.status === "Rejected" ? "bg-warning bg-opacity-10 text-warning" : 
-                        c.status === "Blacklisted" || c.status === "Suspended" ? "bg-danger bg-opacity-10 text-danger" : 
-                        "bg-secondary bg-opacity-10 text-secondary"
-                      }`}>
+                      <span className={`badge rounded-pill px-3 py-2 fw-medium ${c.status === "Approved" ? "bg-success bg-opacity-10 text-success" :
+                        c.status === "Rejected" ? "bg-warning bg-opacity-10 text-warning" :
+                          c.status === "Blacklisted" || c.status === "Suspended" ? "bg-danger bg-opacity-10 text-danger" :
+                            "bg-secondary bg-opacity-10 text-secondary"
+                        }`}>
                         {c.status}
                       </span>
                     </td>
@@ -675,12 +672,12 @@ function Admin({ consultants, setConsultants }) {
                       </div>
                     </td>
                     <td>
-                       <input type="text" className="form-control form-control-sm border-0 w-100" style={{background:"#f8fafc"}} placeholder="Write feedback..." onBlur={(e) => {
-                          if (e.target.value) updateStatus(c.id, c.status, e.target.value);
-                       }} defaultValue={c.feedback || ""} />
+                      <input type="text" className="form-control form-control-sm border-0 w-100" style={{ background: "#f8fafc" }} placeholder="Write feedback..." onBlur={(e) => {
+                        if (e.target.value) updateStatus(c.id, c.status, e.target.value);
+                      }} defaultValue={c.feedback || ""} />
                     </td>
                     <td className="text-end">
-                       <button className="btn btn-sm btn-light text-primary fw-bold px-3 border" onClick={() => alert(`Viewing details for ${c.name || c.fullName}...`)}>View</button>
+                      <button className="btn btn-sm btn-light text-primary fw-bold px-3 border" onClick={() => alert(`Viewing details for ${c.name || c.fullName}...`)}>View</button>
                     </td>
                   </tr>
                 ))}
