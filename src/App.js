@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import { useState, useEffect } from "react";
+import { Heart, Sparkles, User, Sun, Activity, Shield, Users, ArrowRight, Brain } from 'lucide-react';
 import './App.css';
 
 /* ---------------- INITIAL STATE MOCKS ---------------- */
@@ -72,27 +73,165 @@ const motivationalQuotes = [
   "The only journey is the journey within."
 ];
 
-/* ---------------- LANDING PAGE ---------------- */
-function Landing() {
+/* ---------------- LANDING PAGE COMPONENTS ---------------- */
+
+function TopNavbar() {
   const navigate = useNavigate();
-  const [quote] = useState(() => motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)]);
   return (
-    <div className="hero-wrapper" style={{ flexDirection: "column", gap: "30px" }}>
-      <div className="glass-card text-center fade-in">
-        <h2 className="mb-2">Klever Klues</h2>
-        <p className="text-muted mb-5" style={{ fontSize: "1.05rem", fontStyle: "italic" }}>Find the clues to your inner peace.</p>
-        <div className="d-flex flex-column gap-3">
-          <button className="btn btn-primary btn-premium" onClick={() => navigate("/user")}>Enter as User</button>
-          <button className="btn btn-success btn-premium" style={{ background: "rgba(255,255,255,0.2)", color: "#1e293b", backdropFilter: "blur(10px)" }} onClick={() => navigate("/consultant")}>Join as Consultant</button>
-          <div className="mt-4">
-            <button className="btn btn-link text-muted text-decoration-none" onClick={() => navigate("/admin")}>Admin Access →</button>
+    <nav className="klues-navbar">
+      <a href="#" className="klues-logo" onClick={(e) => { e.preventDefault(); navigate("/"); }}>
+        <Brain className="klues-badge-icon" style={{ background: 'transparent', width: '28px', height: '28px' }} />
+        Klever Klues
+      </a>
+      <div className="klues-nav-links">
+        <a href="#" className="klues-nav-link" onClick={(e) => { e.preventDefault(); navigate("/"); }}>Home</a>
+        <a href="#" className="klues-nav-link" onClick={(e) => { e.preventDefault(); navigate("/user"); }}>Dashboard</a>
+        <a href="#" className="klues-nav-link" onClick={(e) => { e.preventDefault(); navigate("/consultant"); }}>Consultants</a>
+        <a href="#" className="klues-nav-link" onClick={(e) => { e.preventDefault(); }}>Resources</a>
+        <a href="#" className="klues-nav-link" onClick={(e) => { e.preventDefault(); }}>Contact</a>
+      </div>
+    </nav>
+  );
+}
+
+function LandingHero() {
+  const navigate = useNavigate();
+  return (
+    <div className="klues-hero">
+      <div className="klues-hero-content">
+        <h1 className="klues-hero-title">
+          Your Mental <br /><span>Wellbeing</span> Matters
+        </h1>
+        <p className="klues-hero-subtitle">
+          A safe space to understand, track, and improve your mental wellbeing with expert support.
+        </p>
+        <div className="klues-hero-actions">
+          <button className="klues-btn klues-btn-primary" onClick={() => navigate("/user")}>
+            Get Started
+            <ArrowRight size={18} />
+          </button>
+          <button className="klues-btn klues-btn-secondary" onClick={() => navigate("/user")}>
+            Explore Dashboard
+          </button>
+        </div>
+      </div>
+      <div className="klues-hero-visual">
+        <div className="klues-blob-bg"></div>
+        <div className="klues-blob-accent"></div>
+
+        <div className="klues-float-badge badge-1">
+          <div className="klues-badge-icon"><Heart size={16} /></div>
+          Safe Space
+        </div>
+
+        <div className="klues-float-badge badge-2">
+          <div className="klues-badge-icon alert"><Sun size={16} /></div>
+          Inner Peace
+        </div>
+
+        <div className="klues-visual-card">
+          <div className="klues-visual-icon-wrap">
+            <Sparkles size={40} />
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: 700, margin: '0 0 0.5rem 0', color: 'var(--text-main)' }}>Emotional Wellness</h3>
+            <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', margin: 0 }}>Find your balance today.</p>
+          </div>
+          <div style={{ display: 'flex', gap: '8px', opacity: 0.8 }}>
+            <User size={24} color="var(--primary)" />
+            <User size={24} color="var(--secondary)" />
+            <User size={24} color="var(--accent)" />
           </div>
         </div>
       </div>
-      <div className="motivational-quote fade-in-quote">
-        "{quote}"
+    </div>
+  );
+}
+
+function LandingFeatures() {
+  const features = [
+    { title: "Mood Tracking", desc: "Monitor your emotional journey with daily insights.", icon: <Activity size={32} /> },
+    { title: "Expert Consultants", desc: "Connect with certified therapists securely.", icon: <Users size={32} /> },
+    { title: "AI Insights", desc: "Personalized resources based on your profile.", icon: <Sparkles size={32} /> },
+    { title: "Privacy Protection", desc: "Your data is encrypted and strictly confidential.", icon: <Shield size={32} /> }
+  ];
+
+  return (
+    <section className="klues-features-section">
+      <div className="klues-section-header">
+        <h2 className="klues-section-title">Why Choose Us</h2>
+        <p className="klues-section-subtitle">Features designed to support your mental health journey every step of the way.</p>
       </div>
-      <PageNavigation />
+      <div className="klues-features-grid">
+        {features.map((f, i) => (
+          <div className="klues-feature-card" key={i}>
+            <div className="klues-feature-icon-wrap">
+              {f.icon}
+            </div>
+            <h3>{f.title}</h3>
+            <p>{f.desc}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function LandingConsultants() {
+  const consultants = [
+    { name: "Dr. Sarah Jenkins", spec: "Clinical Psychologist", rating: "4.9", image: "https://api.dicebear.com/9.x/avataaars/svg?seed=Sarah&backgroundColor=b6e3f4" },
+    { name: "Dr. Michael Chen", spec: "Cognitive Behavioral Therapy", rating: "4.8", image: "https://api.dicebear.com/9.x/avataaars/svg?seed=Michael&backgroundColor=c0aede" },
+    { name: "Emma Thompson", spec: "Anxiety & Stress Management", rating: "5.0", image: "https://api.dicebear.com/9.x/avataaars/svg?seed=Emma&backgroundColor=ffdfbf" }
+  ];
+
+  const navigate = useNavigate();
+
+  return (
+    <section className="klues-consultants-section">
+      <div className="klues-section-header">
+        <h2 className="klues-section-title">Meet Our Experts</h2>
+        <p className="klues-section-subtitle">Compassionate professionals ready to guide you towards a better tomorrow.</p>
+      </div>
+      <div className="klues-consultants-grid">
+        {consultants.map((c, i) => (
+          <div className="klues-consultant-card" key={i}>
+            <div className="klues-consultant-avatar">
+              <img src={c.image} alt={c.name} />
+            </div>
+            <div className="klues-consultant-name">{c.name}</div>
+            <div className="klues-consultant-spec">{c.spec}</div>
+            <div className="klues-consultant-rating">
+              <Heart size={14} fill="var(--accent)" />
+              {c.rating} <span>(120+ Sessions)</span>
+            </div>
+            <button className="klues-btn klues-btn-secondary" style={{ width: '100%', padding: '0.6rem' }} onClick={() => navigate("/consultant")}>
+              View Profile
+            </button>
+          </div>
+        ))}
+      </div>
+      <div style={{ textAlign: 'center', marginTop: '3rem' }}>
+        <button className="klues-btn klues-btn-primary" onClick={() => navigate("/consultant")}>
+          See All Consultants
+        </button>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- MAIN LANDING PAGE CONTAINER ---------------- */
+function Landing() {
+  return (
+    <div className="klues-landing">
+      <TopNavbar />
+      <LandingHero />
+      <LandingFeatures />
+      <LandingConsultants />
+
+      {/* Existing Admin Access Link at bottom */}
+      <div style={{ textAlign: 'center', padding: '2rem', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
+        <a href="/admin" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.9rem' }}>Admin Access →</a>
+      </div>
     </div>
   );
 }
