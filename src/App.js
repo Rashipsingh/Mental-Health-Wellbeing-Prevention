@@ -38,20 +38,14 @@ function SOSButton() {
 }
 
 /* ---------------- PAGE NAVIGATION BUTTONS ---------------- */
-function PageNavigation({ prevPath, prevLabel, nextPath, nextLabel }) {
+function PageNavigation() {
   const navigate = useNavigate();
   return (
     <div className="page-nav-container">
-      {prevPath ? (
-        <button className="page-nav-btn" onClick={() => navigate(prevPath)}>
-          ← {prevLabel || "Previous"}
-        </button>
-      ) : <div className="page-nav-spacer" />}
-      {nextPath ? (
-        <button className="page-nav-btn" onClick={() => navigate(nextPath)}>
-          {nextLabel || "Next"} →
-        </button>
-      ) : <div className="page-nav-spacer" />}
+      <button className="page-nav-btn" onClick={() => navigate("/")}>
+        ← Back
+      </button>
+      <div className="page-nav-spacer" />
     </div>
   );
 }
@@ -98,7 +92,7 @@ function Landing() {
       <div className="motivational-quote fade-in-quote">
         "{quote}"
       </div>
-      <PageNavigation nextPath="/user" nextLabel="Next" />
+      <PageNavigation />
     </div>
   );
 }
@@ -114,9 +108,14 @@ function UserAuth({ setAuthUser }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (mode === "login") {
-      setAuthUser({ name: "Demo User", email: formData.email, role: "User", id: 101 });
+      const storedUsers = JSON.parse(localStorage.getItem("registeredUsers") || "{}");
+      const savedName = storedUsers[formData.email] || (formData.email ? formData.email.split('@')[0] : "User");
+      setAuthUser({ name: savedName, email: formData.email, role: "User", id: 101 });
       navigate("/user/dashboard");
     } else {
+      const storedUsers = JSON.parse(localStorage.getItem("registeredUsers") || "{}");
+      storedUsers[formData.email] = formData.fullName;
+      localStorage.setItem("registeredUsers", JSON.stringify(storedUsers));
       setAuthUser({ name: formData.fullName, email: formData.email, role: "User", id: Date.now() });
       navigate("/user/dashboard");
     }
@@ -135,16 +134,16 @@ function UserAuth({ setAuthUser }) {
           <button className={`btn w-50 rounded-pill ${mode === "register" ? "btn-primary shadow-sm" : "btn-light text-muted border-0"}`} onClick={() => setMode("register")}>Register</button>
         </div>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} autoComplete="off">
           {mode === "register" && (
             <div className="mb-3">
               <label className="small text-muted mb-1 fw-bold">Full Name</label>
-              <input type="text" name="fullName" className="form-control" placeholder="John Doe or 'Phoenix'" onChange={handleChange} required />
+              <input type="text" name="fullName" className="form-control" placeholder="John Doe or 'Phoenix'" value={formData.fullName || ""} onChange={handleChange} autoComplete="off" required />
             </div>
           )}
           <div className="mb-3">
             <label className="small text-muted mb-1 fw-bold">Email Address</label>
-            <input type="email" name="email" className="form-control" placeholder="you@domain.com" onChange={handleChange} required />
+            <input type="email" name="email" className="form-control" placeholder="Enter your email" value={formData.email || ""} onChange={handleChange} autoComplete="off" required />
           </div>
           {mode === "register" && (
             <>
@@ -177,12 +176,12 @@ function UserAuth({ setAuthUser }) {
           )}
           <div className="mb-4">
             <label className="small text-muted mb-1 fw-bold">{mode === "register" ? "Create Password" : "Password"}</label>
-            <input type="password" name="password" className="form-control" placeholder="••••••••" onChange={handleChange} required />
+            <input type="password" name="password" className="form-control" placeholder="Enter your password" value={formData.password || ""} onChange={handleChange} autoComplete="new-password" required />
           </div>
           <button className="btn btn-primary btn-premium w-100">{mode === "login" ? "Login" : "Create Account"}</button>
         </form>
       </div>
-      <PageNavigation prevPath="/" prevLabel="Previous" nextPath="/consultant" nextLabel="Next" />
+      <PageNavigation />
     </div>
   );
 }
@@ -214,30 +213,30 @@ function UserDashboard({ authUser, onLogout, consultants, appointments, setAppoi
       backgroundSize: "400% 400%",
       animation: "gradientPan 15s ease infinite"
     }}>
-      <div className="layout-sidebar">
-        <div className="sidebar-logo">
+      <div className="layout-sidebar" style={{ background: "#0f172a", color: "white", borderRight: "none" }}>
+        <div className="sidebar-logo text-white">
           Klever Klues
         </div>
-        <div className={`sidebar-nav-item ${view === "home" ? "active" : ""}`} onClick={() => setView("home")}>
+        <div className={`sidebar-nav-item ${view === "home" ? "active" : ""} text-white`} style={view === "home" ? { background: "rgba(255,255,255,0.1)" } : { opacity: 0.8 }} onClick={() => setView("home")}>
           Overview
         </div>
-        <div className={`sidebar-nav-item ${view === "book" ? "active" : ""}`} onClick={() => setView("book")}>
+        <div className={`sidebar-nav-item ${view === "book" ? "active" : ""} text-white`} style={view === "book" ? { background: "rgba(255,255,255,0.1)" } : { opacity: 0.8 }} onClick={() => setView("book")}>
           Book Session
         </div>
-        <div className={`sidebar-nav-item ${view === "prescriptions" ? "active" : ""}`} onClick={() => setView("prescriptions")}>
+        <div className={`sidebar-nav-item ${view === "prescriptions" ? "active" : ""} text-white`} style={view === "prescriptions" ? { background: "rgba(255,255,255,0.1)" } : { opacity: 0.8 }} onClick={() => setView("prescriptions")}>
           Plans & Targets
         </div>
-        <div className={`sidebar-nav-item ${view === "forum" ? "active" : ""}`} onClick={() => setView("forum")}>
+        <div className={`sidebar-nav-item ${view === "forum" ? "active" : ""} text-white`} style={view === "forum" ? { background: "rgba(255,255,255,0.1)" } : { opacity: 0.8 }} onClick={() => setView("forum")}>
           Community
         </div>
-        <div className={`sidebar-nav-item ${view === "resources" ? "active" : ""}`} onClick={() => setView("resources")}>
+        <div className={`sidebar-nav-item ${view === "resources" ? "active" : ""} text-white`} style={view === "resources" ? { background: "rgba(255,255,255,0.1)" } : { opacity: 0.8 }} onClick={() => setView("resources")}>
           Resources
         </div>
-        <div className={`sidebar-nav-item ${view === "assessments" ? "active" : ""}`} onClick={() => setView("assessments")}>
+        <div className={`sidebar-nav-item ${view === "assessments" ? "active" : ""} text-white`} style={view === "assessments" ? { background: "rgba(255,255,255,0.1)" } : { opacity: 0.8 }} onClick={() => setView("assessments")}>
           Assessments
         </div>
         <div style={{ marginTop: "auto", paddingTop: "40px" }}>
-          <div className="sidebar-nav-item text-danger" onClick={onLogout}>
+          <div className="sidebar-nav-item text-danger fw-bold" style={{ opacity: 0.9 }} onClick={onLogout}>
             Logout
           </div>
         </div>
@@ -251,7 +250,7 @@ function UserDashboard({ authUser, onLogout, consultants, appointments, setAppoi
           </div>
           <div className="d-flex align-items-center gap-3">
             <div style={{ width: "40px", height: "40px", borderRadius: "50%", background: "var(--primary)", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold" }}>
-              {authUser.name.charAt(0)}
+              {authUser?.name ? authUser.name.charAt(0).toUpperCase() : 'U'}
             </div>
           </div>
         </header>
@@ -354,18 +353,37 @@ function UserDashboard({ authUser, onLogout, consultants, appointments, setAppoi
             <div className="col-lg-8 video-stream">
               <div className="text-center">
                 <div style={{ fontSize: "3rem", opacity: 0.5 }} className="mb-2"></div>
-                <p className="text-white-50 m-0">End-to-End Encrypted Video</p>
               </div>
               <div className="video-controls-overlay">
-                <button className="ctrl-btn">Mic</button>
-                <button className="ctrl-btn">Video</button>
-                <button className="ctrl-btn">Screen</button>
-                <button className="ctrl-btn danger" onClick={() => setView("home")}>End</button>
+                <div className="d-flex flex-column align-items-center gap-1">
+                  <button className="ctrl-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" x2="12" y1="19" y2="22"></line></svg>
+                  </button>
+                  <span className="text-white small" style={{ fontSize: "0.75rem" }}>Mic</span>
+                </div>
+                <div className="d-flex flex-column align-items-center gap-1">
+                  <button className="ctrl-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"></path><rect x="2" y="6" width="14" height="12" rx="2"></rect></svg>
+                  </button>
+                  <span className="text-white small" style={{ fontSize: "0.75rem" }}>Video</span>
+                </div>
+                <div className="d-flex flex-column align-items-center gap-1">
+                  <button className="ctrl-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"></rect><line x1="8" x2="16" y1="21" y2="21"></line><line x1="12" x2="12" y1="17" y2="21"></line></svg>
+                  </button>
+                  <span className="text-white small" style={{ fontSize: "0.75rem" }}>Screen</span>
+                </div>
+                <div className="d-flex flex-column align-items-center gap-1">
+                  <button className="ctrl-btn danger" onClick={() => setView("home")}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.42 19.42 0 0 1-3.33-2.67m-2.67-3.34a19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91"></path><line x1="22" x2="2" y1="2" y2="22"></line></svg>
+                  </button>
+                  <span className="text-white small" style={{ fontSize: "0.75rem" }}>End</span>
+                </div>
               </div>
             </div>
             <div className="col-lg-4 chat-panel">
               <div className="p-3 border-bottom text-center fw-bold text-muted small text-uppercase tracking-widest">
-                Secure Chat
+                Chat
               </div>
               <div className="chat-history">
                 <div className="msg-bubble system">Connection secured. Dr. Smith joined.</div>
@@ -490,7 +508,7 @@ function UserDashboard({ authUser, onLogout, consultants, appointments, setAppoi
           </div>
         )}
 
-        <PageNavigation prevPath="/user" prevLabel="Previous" nextPath="/consultant" nextLabel="Next" />
+        <PageNavigation />
       </div>
     </div>
   );
@@ -499,27 +517,97 @@ function UserDashboard({ authUser, onLogout, consultants, appointments, setAppoi
 /* ---------------- CONSULTANT FLOW: REGISTRATION ---------------- */
 function ConsultantRegistration({ consultants, setConsultants }) {
   const [formData, setFormData] = useState({ fullName: "", email: "", phone: "", qualification: "", license: "" });
-  const [submitted, setSubmitted] = useState(false);
+  const [view, setView] = useState("register"); // 'register', 'statusCheck', 'showStatus'
+  const [checkEmail, setCheckEmail] = useState("");
+  const [submittedEmail, setSubmittedEmail] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const aiScore = Math.floor(Math.random() * 15) + 85;
-    setConsultants(prev => [...prev, {
-      id: Date.now(), ...formData, status: "Pending",
-      aiEvaluation: { score: aiScore, notes: `Documents Authenticated. Screening criteria passed with ${aiScore}% confidence.` },
-      feedback: ""
-    }]);
-    setSubmitted(true);
+
+    // Check if consultant with same email exists
+    const existing = consultants.find(c => c.email === formData.email);
+    if (!existing) {
+      setConsultants(prev => [...prev, {
+        id: Date.now(), name: formData.fullName, ...formData, status: "Pending",
+        aiEvaluation: { score: aiScore, notes: `Documents Authenticated. Screening criteria passed with ${aiScore}% confidence.` },
+        feedback: ""
+      }]);
+    }
+
+    alert("Application submitted successfully. You can check your status later.");
+    setFormData({ fullName: "", email: "", phone: "", qualification: "", license: "" });
   };
 
-  if (submitted) return (
-    <div className="auth-wrapper">
-      <div className="glass-card text-center fade-in">
-        <h3 className="fw-bold mb-3">Please Wait</h3>
-        <div className="spinner-border text-primary" role="status"><span className="visually-hidden">Loading...</span></div>
+  if (view === "statusCheck") {
+    return (
+      <div className="hero-wrapper" style={{ flexDirection: "column" }}>
+        <div className="glass-card text-center fade-in" style={{ padding: "40px", minWidth: "350px", maxWidth: "450px" }}>
+          <h4 className="fw-bold mb-3">Check Application Status</h4>
+          <p className="text-muted small mb-4">Enter your registered email address to view your latest status.</p>
+          <input
+            type="email"
+            className="form-control mb-3"
+            placeholder="Email Address"
+            value={checkEmail}
+            onChange={(e) => setCheckEmail(e.target.value)}
+          />
+          <button className="btn btn-primary btn-premium w-100 mb-3" onClick={() => {
+            if (checkEmail) {
+              setSubmittedEmail(checkEmail);
+              setView("showStatus");
+            }
+          }}>
+            Check Status
+          </button>
+          <button className="btn btn-link text-muted text-decoration-none w-100" onClick={() => setView("register")}>
+            ← Back to Registration
+          </button>
+        </div>
+        <PageNavigation />
       </div>
-    </div>
-  );
+    );
+  }
+
+  if (view === "showStatus") {
+    const myApp = consultants.find(c => c.email === submittedEmail) || { name: "", fullName: "", email: submittedEmail, status: "Not Found" };
+    return (
+      <div className="hero-wrapper">
+        <div className="glass-card text-center fade-in" style={{ padding: "40px", minWidth: "350px", maxWidth: "450px" }}>
+          <h3 className="fw-bold mb-1">Application Status</h3>
+          <p className="text-muted fw-bold mb-4">Submitted</p>
+
+          <div className="text-start mb-2 bg-light p-4 rounded-3" style={{ border: "1px solid #e2e8f0" }}>
+            <div className="mb-3 d-flex justify-content-between align-items-center">
+              <span className="text-muted fw-bold">Name:</span>
+              <span className="fw-medium text-dark">{myApp.name || myApp.fullName || "Applicant"}</span>
+            </div>
+            <div className="mb-4 d-flex justify-content-between align-items-center">
+              <span className="text-muted fw-bold">Email:</span>
+              <span className="fw-medium text-dark">{myApp.email}</span>
+            </div>
+            <div className="d-flex justify-content-between align-items-center pt-3 border-top">
+              <span className="text-muted fw-bold">Status:</span>
+              {myApp.status === "Pending" && <span className="badge bg-warning text-dark rounded-pill px-3 py-2">Pending Approval</span>}
+              {myApp.status === "Approved" && <span className="badge bg-success rounded-pill px-3 py-2">Approved</span>}
+              {myApp.status === "Rejected" && <span className="badge bg-danger rounded-pill px-3 py-2">Rejected</span>}
+              {!(myApp.status === "Pending" || myApp.status === "Approved" || myApp.status === "Rejected") && <span className="badge bg-secondary rounded-pill px-3 py-2">{myApp.status}</span>}
+            </div>
+          </div>
+
+          {myApp.status === "Rejected" && (
+            <p className="text-danger mt-3 small fw-bold">
+              Your application was not approved. Please contact support.
+            </p>
+          )}
+
+          <button className="btn btn-outline-secondary mt-4 w-100 fw-bold" onClick={() => setView("register")}>
+            Close
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="hero-wrapper" style={{ flexDirection: "column" }}>
@@ -616,10 +704,17 @@ function ConsultantRegistration({ consultants, setConsultants }) {
               </div>
             </div>
           </div>
-          <button className="btn btn-primary btn-premium w-100 mt-2">Submit Application</button>
+          <button className="btn btn-primary btn-premium w-100 mt-2 mb-4">Submit Application</button>
+
+          <div className="text-center pt-3 border-top pb-2">
+            <p className="text-muted small mb-2">Already applied?</p>
+            <button type="button" className="btn btn-outline-primary btn-sm px-4 rounded-pill fw-bold" onClick={() => setView("statusCheck")}>
+              Check Application Status
+            </button>
+          </div>
         </form>
       </div>
-      <PageNavigation prevPath="/user/dashboard" prevLabel="Previous" nextPath="/admin" nextLabel="Next" />
+      <PageNavigation />
     </div>
   );
 }
@@ -747,7 +842,7 @@ function Admin({ consultants, setConsultants }) {
             </table>
           </div>
         </div>
-        <PageNavigation prevPath="/consultant" prevLabel="Previous" />
+        <PageNavigation />
       </div>
     </div>
   );
