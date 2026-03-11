@@ -1242,3 +1242,35 @@
   width: 100%;
   justify-content: center;
 }
+
+/* --- RESPONSIVE ADJUSTMENTS --- */
+@media (max-width: 768px) {
+  .klues-sidebar-light {
+    width: 100% !important;
+    flex-direction: row !important;
+    overflow-x: auto;
+    padding: 10px !important;
+  }
+
+  .klues-sidebar-light .sidebar-logo {
+    display: none !important;
+  }
+
+  .klues-sidebar-light .sidebar-nav-item {
+    margin: 0 5px !important;
+    white-space: nowrap;
+    padding: 10px 15px !important;
+  }
+
+  .d-flex.flex-grow-1 {
+    flex-direction: column !important;
+  }
+
+  .klues-panel {
+    padding: 1.5rem !important;
+  }
+
+  .admin-layout .layout-main {
+    padding: 15px !important;
+  }
+}
