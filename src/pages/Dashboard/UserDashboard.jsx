@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PageNavigation from '../../components/layout/PageNavigation';
+import { Heart, Send, Star, Calendar, MessageSquare, Pill, BarChart2, BookOpen, Settings, HelpCircle, StarOfLife } from 'lucide-react';
 
 function UserDashboard({ authUser, onLogout, consultants, appointments, setAppointments, prescriptions, forums, reviews, setReviews }) {
   const [view, setView] = useState("home");
@@ -67,7 +68,10 @@ function UserDashboard({ authUser, onLogout, consultants, appointments, setAppoi
           Book Session
         </div>
         <div className={`sidebar-nav-item ${view === "prescriptions" ? "active" : ""}`} onClick={() => setView("prescriptions")}>
-          Plans & Targets
+          Prescriptions
+        </div>
+        <div className={`sidebar-nav-item ${view === "history" ? "active" : ""}`} onClick={() => setView("history")}>
+          Medical History
         </div>
         <div className={`sidebar-nav-item ${view === "forum" ? "active" : ""}`} onClick={() => setView("forum")}>
           Community
@@ -172,10 +176,10 @@ function UserDashboard({ authUser, onLogout, consultants, appointments, setAppoi
                   <div className="klues-panel text-center p-4" style={{ position: 'relative' }}>
                     <button 
                       onClick={() => toggleFavorite(c.id)} 
-                      style={{ position: 'absolute', top: '15px', right: '15px', background: 'none', border: 'none', fontSize: '1.4rem', cursor: 'pointer', color: favorites.includes(c.id) ? '#ef4444' : '#d1d5db', transition: 'color 0.2s' }}
+                      style={{ position: 'absolute', top: '15px', right: '15px', background: 'none', border: 'none', cursor: 'pointer', color: favorites.includes(c.id) ? '#ef4444' : '#d1d5db', transition: 'color 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                       title={favorites.includes(c.id) ? 'Remove from favorites' : 'Add to favorites'}
                     >
-                      {favorites.includes(c.id) ? '\u2764' : '\u2661'}
+                      <Heart size={24} fill={favorites.includes(c.id) ? '#ef4444' : 'none'} />
                     </button>
                     <div style={{ width: "80px", height: "80px", borderRadius: "50%", background: "#e0e7ff", margin: "0 auto 16px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "2rem" }}></div>
                     <h5 className="fw-bold">{c.name}</h5>
@@ -273,7 +277,9 @@ function UserDashboard({ authUser, onLogout, consultants, appointments, setAppoi
               </div>
               <div className="chat-composer">
                 <input type="text" placeholder="Type a secure message..." />
-                <button className="btn btn-primary text-white" style={{ borderRadius: "50%", width: "42px", height: "42px", padding: 0 }}>➤</button>
+                <button className="btn btn-primary text-white d-flex align-items-center justify-content-center" style={{ borderRadius: "50%", width: "42px", height: "42px", padding: 0 }}>
+                  <Send size={18} />
+                </button>
               </div>
             </div>
           </div>
@@ -281,34 +287,108 @@ function UserDashboard({ authUser, onLogout, consultants, appointments, setAppoi
 
         {view === "prescriptions" && (
           <div className="fade-in">
-            <h5 className="mb-4 fw-bold">Care Plans & Targets</h5>
-            {myPrescriptions.length === 0 ? <p className="text-muted">No active plans.</p> : (
+            <div className="d-flex justify-content-between align-items-center mb-4">
+              <h5 className="fw-bold m-0">My Prescriptions</h5>
+              <button className="klues-btn klues-btn-secondary fw-bold" onClick={() => alert("Redirecting to Pharmacy...")}>Order Medicines</button>
+            </div>
+            {myPrescriptions.length === 0 ? (
+              <div className="klues-panel text-center py-5">
+                <p className="text-muted">No prescriptions found.</p>
+              </div>
+            ) : (
               <div className="row g-4">
                 {myPrescriptions.map(p => (
                   <div key={p.id} className="col-lg-6">
-                    <div className="klues-panel border-top border-4 border-primary p-4 h-100">
-                      <div className="d-flex justify-content-between align-items-center mb-4">
+                    <div className="klues-panel border-top border-4 border-primary p-4 h-100 shadow-sm">
+                      <div className="d-flex justify-content-between align-items-center mb-3">
                         <h6 className="fw-bold m-0 fs-5">Dr. {p.consultantName}</h6>
-                        <span className="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 border-0">Active Plan</span>
+                        <span className="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2">Validated</span>
                       </div>
                       <div className="bg-light p-3 rounded-3 mb-4" style={{ border: "1px solid rgba(0,0,0,0.05)" }}>
                         <p className="mb-2 small"><span className="text-muted fw-bold">Diagnosis:</span> <span className="fw-bold ms-1">{p.diagnosis}</span></p>
-                        <p className="m-0 small"><span className="text-muted fw-bold">Notes:</span> <span className="ms-1">{p.notes}</span></p>
+                        <p className="m-0 small"><span className="text-muted fw-bold">Prescribed on:</span> <span className="ms-1">Oct 24, 2023</span></p>
                       </div>
-                      <h6 className="fw-semibold small text-uppercase text-primary mb-3 mt-4">Daily Targets</h6>
-                      <div className="d-flex flex-column gap-3">
-                        {p.targets.map((t, idx) => (
-                          <label key={idx} className="d-flex align-items-center gap-3 p-3 border rounded-3 cursor-pointer bg-white shadow-sm" style={{ transition: "all 0.2s" }}>
-                            <input type="checkbox" className="form-check-input mt-0" defaultChecked={t.completed} style={{ width: "1.2rem", height: "1.2rem" }} />
-                            <span className={t.completed ? "text-decoration-line-through text-muted" : "fw-medium"}>{t.task}</span>
-                          </label>
-                        ))}
+                      <div className="d-flex gap-2 mt-4">
+                        <button className="klues-btn klues-btn-primary flex-grow-1" onClick={() => alert("Downloading Prescription PDF...")}>
+                          Download PDF
+                        </button>
+                        <button className="btn btn-outline-secondary fw-bold" onClick={() => setView("history")}>View Details</button>
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
             )}
+          </div>
+        )}
+
+        {view === "history" && (
+          <div className="fade-in">
+            <h5 className="mb-4 fw-bold">Patient History Timeline</h5>
+            <div className="klues-panel p-4">
+              <div style={{ position: 'relative', paddingLeft: '30px' }}>
+                <div style={{ position: 'absolute', left: '7px', top: '5px', bottom: '5px', width: '2px', background: '#e2e8f0' }}></div>
+                
+                {/* TIMELINE ITEM */}
+                <div className="mb-5" style={{ position: 'relative' }}>
+                  <div style={{ position: 'absolute', left: '-28px', top: '5px', width: '12px', height: '12px', borderRadius: '50%', background: 'var(--primary)', border: '2px solid white', boxShadow: '0 0 0 3px rgba(108,99,255,0.1)' }}></div>
+                  <div className="d-flex justify-content-between align-items-start mb-2">
+                    <h6 className="fw-bold m-0">Consultation with Dr. Sarah Jenkins</h6>
+                    <span className="text-muted small fw-bold">Oct 24, 2023</span>
+                  </div>
+                  <p className="text-muted small mb-3">Focus on Generalized Anxiety and CBT techniques. Patient reported feeling more grounded after mindfulness exercises.</p>
+                  <div className="d-flex gap-2">
+                    <span className="badge bg-light text-muted border px-2 py-1">Anxiety</span>
+                    <span className="badge bg-light text-muted border px-2 py-1">CBT</span>
+                  </div>
+                </div>
+
+                {/* TIMELINE ITEM */}
+                <div className="mb-5" style={{ position: 'relative' }}>
+                  <div style={{ position: 'absolute', left: '-28px', top: '5px', width: '12px', height: '12px', borderRadius: '50%', background: '#10b981', border: '2px solid white' }}></div>
+                  <div className="d-flex justify-content-between align-items-start mb-2">
+                    <h6 className="fw-bold m-0">Assessment: 16 Personalities</h6>
+                    <span className="text-muted small fw-bold">Sep 15, 2023</span>
+                  </div>
+                  <p className="text-muted small mb-0">Result: INFJ-T (The Advocate). Analysis used to customize care plan resources.</p>
+                </div>
+
+                {/* TIMELINE ITEM */}
+                <div style={{ position: 'relative' }}>
+                  <div style={{ position: 'absolute', left: '-28px', top: '5px', width: '12px', height: '12px', borderRadius: '50%', background: '#64748b', border: '2px solid white' }}></div>
+                  <h6 className="fw-bold mb-1">Account Created</h6>
+                  <span className="text-muted smaller">Sep 10, 2023</span>
+                </div>
+              </div>
+            </div>
+            
+            <h5 className="mt-5 mb-4 fw-bold">Past Appointment Records</h5>
+            <div className="klues-panel p-0 overflow-hidden">
+              <table className="table table-hover m-0" style={{ fontSize: '0.9rem' }}>
+                <thead className="bg-light">
+                  <tr>
+                    <th className="px-4 py-3 border-0">Doctor</th>
+                    <th className="py-3 border-0">Specialty</th>
+                    <th className="py-3 border-0">Date</th>
+                    <th className="py-3 border-0">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="px-4 py-3 fw-bold">Dr. Sarah Jenkins</td>
+                    <td className="py-3 text-muted">Psychiatrist</td>
+                    <td className="py-3">Oct 24, 2023</td>
+                    <td className="py-3"><span className="text-success fw-bold">Completed</span></td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3 fw-bold">Dr. Michael Chen</td>
+                    <td className="py-3 text-muted">Counselor</td>
+                    <td className="py-3">Oct 12, 2023</td>
+                    <td className="py-3"><span className="text-danger fw-bold">Cancelled</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
 
@@ -460,11 +540,11 @@ function UserDashboard({ authUser, onLogout, consultants, appointments, setAppoi
                           <div className="bg-light p-3 rounded-3 mt-3">
                             <div className="d-flex gap-1 mb-3">
                               {[1,2,3,4,5].map(star => (
-                                <span key={star} style={{ cursor: 'pointer', fontSize: '1.5rem', color: star <= (reviewForm.hoverRating || reviewForm.rating) ? '#f59e0b' : '#d1d5db', transition: 'color 0.15s' }}
+                                <span key={star} style={{ cursor: 'pointer', transition: 'color 0.15s' }}
                                   onMouseEnter={() => setReviewForm(f => ({...f, hoverRating: star}))}
                                   onMouseLeave={() => setReviewForm(f => ({...f, hoverRating: 0}))}
                                   onClick={() => setReviewForm(f => ({...f, rating: star}))}>
-                                  ★
+                                  <Star size={24} fill={star <= (reviewForm.hoverRating || reviewForm.rating) ? '#f59e0b' : 'none'} color={star <= (reviewForm.hoverRating || reviewForm.rating) ? '#f59e0b' : '#d1d5db'} />
                                 </span>
                               ))}
                               <span className="ms-2 small text-muted fw-bold mt-1">{reviewForm.rating}/5</span>
@@ -484,9 +564,13 @@ function UserDashboard({ authUser, onLogout, consultants, appointments, setAppoi
                             <p className="small fw-bold text-muted text-uppercase mb-2">Recent Reviews</p>
                             {reviews.filter(r => r.consultantId === c.id && r.status === 'approved').slice(0, 3).map(r => (
                               <div key={r.id} className="bg-light p-2 rounded mb-2 small">
-                                <div className="d-flex justify-content-between">
+                                <div className="d-flex justify-content-between align-items-center">
                                   <span className="fw-bold">{r.userName}</span>
-                                  <span style={{ color: '#f59e0b' }}>{'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}</span>
+                                  <div className="d-flex gap-1">
+                                    {[1,2,3,4,5].map(i => (
+                                      <Star key={i} size={12} fill={i <= r.rating ? '#f59e0b' : 'none'} color={i <= r.rating ? '#f59e0b' : '#d1d5db'} />
+                                    ))}
+                                  </div>
                                 </div>
                                 <p className="text-muted mb-0 mt-1">{r.comment}</p>
                               </div>

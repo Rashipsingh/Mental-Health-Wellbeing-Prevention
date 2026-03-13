@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { doctors, hospitals, specialties, testimonials, howItWorks } from '../../constants/mockData';
+import { Star, ArrowRight, Activity, Heart, HelpCircle, Search } from 'lucide-react';
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -110,7 +111,9 @@ function LandingPage() {
             <h2 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: '0.5rem' }}>Featured Doctors</h2>
             <p style={{ color: 'var(--text-muted)', margin: 0 }}>Top-rated healthcare professionals</p>
           </div>
-          <button className="klues-btn klues-btn-secondary" onClick={() => navigate('/search')}>View All Doctors →</button>
+          <button className="klues-btn klues-btn-secondary d-flex align-items-center gap-2" onClick={() => navigate('/search')}>
+            View All Doctors <ArrowRight size={16} />
+          </button>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.5rem', maxWidth: '1200px', margin: '0 auto' }}>
           {featuredDoctors.map(doc => (
@@ -134,7 +137,7 @@ function LandingPage() {
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '1rem', borderTop: '1px solid rgba(0,0,0,0.04)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <span style={{ color: '#f59e0b' }}>★</span>
+                  <Star size={14} fill="#f59e0b" color="#f59e0b" />
                   <span style={{ fontWeight: 700, fontSize: '0.9rem' }}>{doc.rating}</span>
                   <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>({doc.reviews})</span>
                 </div>
@@ -152,7 +155,9 @@ function LandingPage() {
             <h2 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: '0.5rem' }}>Top Hospitals</h2>
             <p style={{ color: 'var(--text-muted)', margin: 0 }}>Trusted healthcare institutions near you</p>
           </div>
-          <button className="klues-btn klues-btn-secondary" onClick={() => navigate('/search?tab=hospitals')}>View All Hospitals →</button>
+          <button className="klues-btn klues-btn-secondary d-flex align-items-center gap-2" onClick={() => navigate('/search?tab=hospitals')}>
+            View All Hospitals <ArrowRight size={16} />
+          </button>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: '1.5rem', maxWidth: '1200px', margin: '0 auto' }}>
           {topHospitals.map(h => (
@@ -172,7 +177,7 @@ function LandingPage() {
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '1rem', borderTop: '1px solid rgba(0,0,0,0.04)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <span style={{ color: '#f59e0b' }}>★</span>
+                    <Star size={14} fill="#f59e0b" color="#f59e0b" />
                     <span style={{ fontWeight: 700 }}>{h.rating}</span>
                     <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>({h.reviews} reviews)</span>
                   </div>
@@ -214,8 +219,10 @@ function LandingPage() {
             <div key={i} style={{ background: '#f8fafc', borderRadius: '20px', padding: '2rem', border: '1px solid rgba(0,0,0,0.04)', transition: 'all 0.3s' }}
               onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 10px 25px rgba(0,0,0,0.06)'; }}
               onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = ''; }}>
-              <div style={{ color: '#f59e0b', marginBottom: '1rem', fontSize: '1.1rem' }}>
-                {'★'.repeat(t.rating)}{'☆'.repeat(5 - t.rating)}
+              <div style={{ color: '#f59e0b', marginBottom: '1rem', display: 'flex', gap: '2px' }}>
+                {[1,2,3,4,5].map(i => (
+                  <Star key={i} size={16} fill={i <= t.rating ? '#f59e0b' : 'none'} color={i <= t.rating ? '#f59e0b' : '#d1d5db'} />
+                ))}
               </div>
               <p style={{ color: 'var(--text-main)', lineHeight: 1.7, marginBottom: '1.5rem', fontSize: '0.95rem' }}>"{t.text}"</p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -237,8 +244,8 @@ function LandingPage() {
         <h2 style={{ fontSize: '2.25rem', fontWeight: 700, marginBottom: '1rem' }}>Ready to Take Control of Your Health?</h2>
         <p style={{ opacity: 0.85, maxWidth: '550px', margin: '0 auto 2rem', lineHeight: 1.7 }}>Join thousands of patients who trust our platform to find the best healthcare providers and manage their wellbeing.</p>
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <button className="klues-btn" style={{ background: 'white', color: 'var(--primary)', fontWeight: 700 }} onClick={() => navigate('/user')}>
-            Get Started Free →
+          <button className="klues-btn d-flex align-items-center gap-2" style={{ background: 'white', color: 'var(--primary)', fontWeight: 700 }} onClick={() => navigate('/user')}>
+            Get Started Free <ArrowRight size={18} />
           </button>
           <button className="klues-btn" style={{ background: 'rgba(255,255,255,0.15)', color: 'white', border: '1px solid rgba(255,255,255,0.3)' }} onClick={() => navigate('/search')}>
             Browse Doctors

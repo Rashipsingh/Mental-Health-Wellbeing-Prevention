@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Brain } from 'lucide-react';
+import { Brain, Menu, X } from 'lucide-react';
 
 function TopNavbar({ authUser }) {
   const navigate = useNavigate();
@@ -17,6 +17,8 @@ function TopNavbar({ authUser }) {
       { label: 'All Hospitals', path: '/search?tab=hospitals' },
     ]},
     { label: 'Pharmacy', path: '/pharmacy' },
+    { label: 'Blog', path: '/blog' },
+    { label: 'Admin', path: '/admin' },
     { label: 'Dashboard', path: authUser ? '/user/dashboard' : '/user' },
   ];
 
@@ -63,8 +65,8 @@ function TopNavbar({ authUser }) {
       </div>
 
       {/* MOBILE HAMBURGER */}
-      <button className="klues-mobile-toggle" onClick={() => setMobileOpen(!mobileOpen)} style={{ display: 'none', background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: 'var(--text-main)', padding: '4px' }}>
-        {mobileOpen ? '✕' : '☰'}
+      <button className="klues-mobile-toggle" onClick={() => setMobileOpen(!mobileOpen)} style={{ display: 'none', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-main)', padding: '4px' }}>
+        {mobileOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
 
       {/* MOBILE MENU */}

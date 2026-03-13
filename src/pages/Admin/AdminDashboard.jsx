@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PageNavigation from '../../components/layout/PageNavigation';
+import { Mail, Star, Users, Briefcase, MessageSquare, BarChart2, Settings, ArrowLeft } from 'lucide-react';
 
 function Admin({ consultants, setConsultants, reviews, setReviews }) {
   const navigate = useNavigate();
@@ -303,7 +304,13 @@ function Admin({ consultants, setConsultants, reviews, setReviews }) {
                       <tr key={r.id} style={{ borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
                         <td className="px-4 py-3 fw-bold align-middle">{r.userName}</td>
                         <td className="px-4 py-3 text-muted align-middle">Dr. {r.consultantName}</td>
-                        <td className="px-4 py-3 align-middle" style={{ color: '#f59e0b' }}>{'\u2605'.repeat(r.rating)}{'\u2606'.repeat(5 - r.rating)}</td>
+                        <td className="px-4 py-3 align-middle">
+                          <div className="d-flex gap-1">
+                            {[1,2,3,4,5].map(i => (
+                              <Star key={i} size={14} fill={i <= r.rating ? '#f59e0b' : 'none'} color={i <= r.rating ? '#f59e0b' : '#d1d5db'} />
+                            ))}
+                          </div>
+                        </td>
                         <td className="px-4 py-3 align-middle text-muted small" style={{ maxWidth: '200px' }}>{r.comment || '-'}</td>
                         <td className="px-4 py-3 align-middle">
                           <span className={`badge rounded-pill px-3 py-2 fw-medium ${
@@ -350,6 +357,53 @@ function Admin({ consultants, setConsultants, reviews, setReviews }) {
             <button className="klues-btn klues-btn-primary px-5 py-3 shadow-none fw-bold" onClick={() => alert("Settings saved successfully!")}>Save Settings</button>
           </div>
         );
+      case "emails":
+        return (
+          <div className="fade-in w-100">
+            <h5 className="fw-bold text-main mb-4">Email Template Previews</h5>
+            <div className="row g-4">
+              {['Appointment Confirmation', 'Payment Confirmation', 'Consultation Reminder'].map(template => (
+                <div key={template} className="col-md-4">
+                  <div className="klues-panel p-4 text-center cursor-pointer" onClick={() => alert(`Opening ${template} Preview...`)}>
+                    <div className="bg-light rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3 text-primary" style={{ width: '60px', height: '60px' }}>
+                      <Mail size={24} />
+                    </div>
+                    <h6 className="fw-bold mb-2">{template}</h6>
+                    <button className="btn btn-sm btn-light border fw-bold w-100 mt-2">View Template</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+            
+            <div className="klues-panel mt-5 p-4">
+              <div className="d-flex justify-content-between align-items-center mb-4">
+                <h6 className="fw-bold m-0">Live Preview: Appointment Confirmation</h6>
+                <div>
+                   <button className="btn btn-sm btn-primary fw-bold px-3 me-2">Edit HTML</button>
+                   <button className="btn btn-sm btn-outline-secondary fw-bold px-3">Send Test</button>
+                </div>
+              </div>
+              <div style={{ background: '#f8fafc', padding: '2rem', borderRadius: '16px', border: '1px solid #e2e8f0', color: '#334155' }}>
+                <div style={{ maxWidth: '500px', margin: '0 auto', background: 'white', padding: '2rem', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+                  <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+                    <h2 style={{ color: 'var(--primary)', fontWeight: 800 }}>Klever Klues</h2>
+                  </div>
+                  <h3 style={{ fontWeight: 700, marginBottom: '1rem' }}>Booking Confirmed!</h3>
+                  <p>Hello Alice,</p>
+                  <p>Your appointment with <strong>Dr. Sarah Jenkins</strong> has been successfully booked.</p>
+                  <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '8px', margin: '1.5rem 0' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}><strong>Date</strong> <span>Oct 24, 2023</span></div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}><strong>Time</strong> <span>10:30 AM</span></div>
+                  </div>
+                  <p>Please log in to your dashboard to access the consultation room.</p>
+                  <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+                    <button style={{ background: 'var(--primary)', color: 'white', border: 'none', padding: '12px 30px', borderRadius: '50px', fontWeight: 700 }}>Go to Dashboard</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
       default: return null;
     }
   };
@@ -374,6 +428,9 @@ function Admin({ consultants, setConsultants, reviews, setReviews }) {
         </div>
         <div className={`sidebar-nav-item ${adminView === "reviews" ? "active" : ""}`} onClick={() => setAdminView("reviews")} style={{ cursor: "pointer" }}>
           Reviews
+        </div>
+        <div className={`sidebar-nav-item ${adminView === "emails" ? "active" : ""}`} onClick={() => setAdminView("emails")} style={{ cursor: "pointer" }}>
+          Email Templates
         </div>
         <div className={`sidebar-nav-item ${adminView === "settings" ? "active" : ""}`} onClick={() => setAdminView("settings")} style={{ cursor: "pointer" }}>
           Settings

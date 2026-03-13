@@ -10,6 +10,7 @@ import SOSButton from './components/layout/SOSButton';
 // Page Components
 import Landing from './pages/Landing/LandingPage';
 import UserAuth from './pages/Auth/UserAuth';
+import { I18nProvider } from './context/I18nContext';
 import UserDashboard from './pages/Dashboard/UserDashboard';
 import ConsultantRegistration from './pages/Consultant/ConsultantRegistration';
 import Admin from './pages/Admin/AdminDashboard';
@@ -17,6 +18,8 @@ import SearchPage from './pages/Search/SearchPage';
 import DoctorProfile from './pages/Doctor/DoctorProfile';
 import HospitalDetail from './pages/Hospital/HospitalDetail';
 import PharmacyPage from './pages/Pharmacy/PharmacyPage';
+import HealthBlog from './pages/Landing/HealthBlog';
+import ArticleDetail from './pages/Landing/ArticleDetail';
 
 // Constants
 import { initialForums } from './constants/initialState';
@@ -60,44 +63,48 @@ function App() {
   useEffect(() => localStorage.setItem("authUser", JSON.stringify(authUser)), [authUser]);
 
   return (
-    <Router>
-      <div className="klues-app-wrapper">
-        <TopNavbar authUser={authUser} />
-        <SOSButton />
-        <Routes>
-          <Route path="/" element={<Landing />} />
+    <I18nProvider>
+      <Router>
+        <div className="klues-app-wrapper">
+          <TopNavbar authUser={authUser} />
+          <SOSButton />
+          <Routes>
+            <Route path="/" element={<Landing />} />
 
-          {/* Search & Browse */}
-          <Route path="/search" element={<SearchPage />} />
-          <Route path="/doctor/:id" element={<DoctorProfile />} />
-          <Route path="/hospital/:id" element={<HospitalDetail />} />
-          <Route path="/pharmacy" element={<PharmacyPage />} />
+            {/* Search & Browse */}
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="/doctor/:id" element={<DoctorProfile reviews={reviews} setReviews={setReviews} appointments={appointments} setAppointments={setAppointments} />} />
+            <Route path="/hospital/:id" element={<HospitalDetail />} />
+            <Route path="/pharmacy" element={<PharmacyPage />} />
+            <Route path="/blog" element={<HealthBlog />} />
+            <Route path="/blog/:id" element={<ArticleDetail />} />
 
-          {/* User Flows */}
-          <Route path="/user" element={<UserAuth setAuthUser={setAuthUser} />} />
-          <Route path="/user/dashboard" element={
-            authUser ? <UserDashboard
-              authUser={authUser}
-              onLogout={() => { setAuthUser(null); window.location.href = "/"; }}
-              consultants={consultants}
-              appointments={appointments}
-              setAppointments={setAppointments}
-              prescriptions={prescriptions}
-              forums={forums}
-              setForums={setForums}
-              reviews={reviews}
-              setReviews={setReviews}
-            /> : <Navigate to="/user" />
-          } />
+            {/* User Flows */}
+            <Route path="/user" element={<UserAuth setAuthUser={setAuthUser} />} />
+            <Route path="/user/dashboard" element={
+              authUser ? <UserDashboard
+                authUser={authUser}
+                onLogout={() => { setAuthUser(null); window.location.href = "/"; }}
+                consultants={consultants}
+                appointments={appointments}
+                setAppointments={setAppointments}
+                prescriptions={prescriptions}
+                forums={forums}
+                setForums={setForums}
+                reviews={reviews}
+                setReviews={setReviews}
+              /> : <Navigate to="/user" />
+            } />
 
-          {/* Consultant Flows */}
-          <Route path="/consultant" element={<ConsultantRegistration consultants={consultants} setConsultants={setConsultants} />} />
+            {/* Consultant Flows */}
+            <Route path="/consultant" element={<ConsultantRegistration consultants={consultants} setConsultants={setConsultants} />} />
 
-          {/* Admin Flow */}
-          <Route path="/admin" element={<Admin consultants={consultants} setConsultants={setConsultants} reviews={reviews} setReviews={setReviews} />} />
-        </Routes>
-      </div>
-    </Router>
+            {/* Admin Flow */}
+            <Route path="/admin" element={<Admin consultants={consultants} setConsultants={setConsultants} reviews={reviews} setReviews={setReviews} />} />
+          </Routes>
+        </div>
+      </Router>
+    </I18nProvider>
   );
 }
 

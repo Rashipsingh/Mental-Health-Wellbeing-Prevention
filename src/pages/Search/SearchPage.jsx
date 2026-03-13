@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Breadcrumb from '../../components/common/Breadcrumb';
 import { doctors, hospitals } from '../../constants/mockData';
+import { Star, Search, Filter } from 'lucide-react';
 
 function SearchPage() {
   const navigate = useNavigate();
@@ -147,7 +148,7 @@ function SearchPage() {
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '12px', borderTop: '1px solid #f1f5f9' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                      <span style={{ color: '#f59e0b' }}>★</span>
+                      <Star size={14} fill="#f59e0b" color="#f59e0b" />
                       <span style={{ fontWeight: 700, fontSize: '0.9rem' }}>{doc.rating}</span>
                       <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>({doc.reviews})</span>
                     </div>
@@ -181,7 +182,11 @@ function SearchPage() {
                       {h.departments.map(d => <span key={d} style={{ background: '#e0e7ff', color: 'var(--primary)', padding: '3px 8px', borderRadius: '50px', fontSize: '0.7rem', fontWeight: 600 }}>{d}</span>)}
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ color: '#f59e0b' }}>★ {h.rating} ({h.reviews})</span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#f59e0b' }}>
+                        <Star size={14} fill="#f59e0b" color="#f59e0b" />
+                        <span style={{ fontWeight: 700 }}>{h.rating}</span>
+                        <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>({h.reviews})</span>
+                      </div>
                       <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>{h.doctorCount} Doctors</span>
                     </div>
                   </div>

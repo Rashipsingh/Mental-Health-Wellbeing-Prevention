@@ -80,57 +80,73 @@ function DoctorProfile() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           {/* ABOUT */}
           <div style={{ background: 'white', borderRadius: '16px', padding: '1.75rem', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
-            <h5 style={{ fontWeight: 700, marginBottom: '1rem' }}>About</h5>
-            <p style={{ color: 'var(--text-muted)', lineHeight: 1.7 }}>{doctor.bio}</p>
+            <h5 style={{ fontWeight: 700, marginBottom: '1rem' }}>Professional Profile</h5>
+            <p style={{ color: 'var(--text-muted)', lineHeight: 1.8, fontSize: '1rem' }}>
+              {doctor.bio || `Dr. ${doctor.name} is a dedicated healthcare professional specializing in ${doctor.specialty} with over ${doctor.experience} years of experience. Committed to providing compassionate and comprehensive care, Dr. ${doctor.name} focuses on evidence-based treatments and patient-centered approaches to improve mental wellbeing.`}
+            </p>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '1.5rem' }}>
-              <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '12px' }}>
+              <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '12px', border: '1px solid #f1f5f9' }}>
                 <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', marginBottom: '4px' }}>Hospital</div>
-                <div style={{ fontWeight: 600 }}>{doctor.hospital}</div>
+                <div style={{ fontWeight: 600, color: '#334155' }}>{doctor.hospital}</div>
               </div>
-              <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '12px' }}>
+              <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '12px', border: '1px solid #f1f5f9' }}>
                 <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', marginBottom: '4px' }}>Location</div>
-                <div style={{ fontWeight: 600 }}>{doctor.location}</div>
+                <div style={{ fontWeight: 600, color: '#334155' }}>{doctor.location}</div>
               </div>
-              <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '12px' }}>
+              <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '12px', border: '1px solid #f1f5f9' }}>
                 <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', marginBottom: '4px' }}>Experience</div>
-                <div style={{ fontWeight: 600 }}>{doctor.experience} Years</div>
+                <div style={{ fontWeight: 600, color: '#334155' }}>{doctor.experience} Years</div>
               </div>
-              <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '12px' }}>
+              <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '12px', border: '1px solid #f1f5f9' }}>
                 <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', marginBottom: '4px' }}>Consultation Fee</div>
                 <div style={{ fontWeight: 600, color: 'var(--primary)' }}>₹{doctor.fee}</div>
               </div>
             </div>
           </div>
 
+          {/* MEDICAL EXPERTISE */}
+          <div style={{ background: 'white', borderRadius: '16px', padding: '1.75rem', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+            <h5 style={{ fontWeight: 700, marginBottom: '1rem' }}>Specialties & Expertise</h5>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+              {[doctor.specialty, "General Consultation", "Behavioral Health", "Stress Management"].map(s => (
+                <span key={s} style={{ background: '#e0e7ff', color: 'var(--primary)', padding: '6px 14px', borderRadius: '50px', fontSize: '0.85rem', fontWeight: 600 }}>{s}</span>
+              ))}
+            </div>
+          </div>
+
           {/* REVIEWS */}
           <div style={{ background: 'white', borderRadius: '16px', padding: '1.75rem', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
-            <h5 style={{ fontWeight: 700, marginBottom: '1.25rem' }}>Patient Reviews ({reviews.length + myReviews.length})</h5>
+            <h5 style={{ fontWeight: 700, marginBottom: '1.25rem' }}>Patient Feedback ({reviews.length + myReviews.length})</h5>
             {[...myReviews, ...reviews].map(r => (
-              <div key={r.id} style={{ padding: '1rem 0', borderBottom: '1px solid #f1f5f9' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#e0e7ff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, color: 'var(--primary)', fontSize: '0.8rem' }}>{r.userName.charAt(0)}</div>
-                    <span style={{ fontWeight: 600, fontSize: '0.9rem' }}>{r.userName}</span>
+              <div key={r.id} style={{ padding: '1.25rem 0', borderBottom: '1px solid #f1f5f9' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'linear-gradient(135deg, #6366f1, #8b5cf6)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, color: 'white', fontSize: '0.9rem' }}>{r.userName.charAt(0)}</div>
+                    <div>
+                      <div style={{ fontWeight: 700, fontSize: '0.95rem' }}>{r.userName}</div>
+                      <div style={{ color: '#f59e0b', fontSize: '0.75rem' }}>{'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}</div>
+                    </div>
                   </div>
-                  <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>{r.date}</span>
+                  <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem', fontWeight: 500 }}>{r.date}</span>
                 </div>
-                <div style={{ color: '#f59e0b', marginBottom: '6px', fontSize: '0.9rem' }}>{'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}</div>
-                <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.6, margin: 0 }}>{r.comment}</p>
+                <p style={{ color: '#475569', fontSize: '0.95rem', lineHeight: 1.6, margin: 0, paddingLeft: '52px' }}>{r.comment}</p>
               </div>
             ))}
 
             {/* WRITE REVIEW */}
-            <form onSubmit={handleSubmitReview} style={{ marginTop: '1.5rem', paddingTop: '1.5rem', borderTop: '2px solid #f1f5f9' }}>
-              <h6 style={{ fontWeight: 700, marginBottom: '1rem' }}>Write a Review</h6>
-              <div style={{ display: 'flex', gap: '4px', marginBottom: '12px' }}>
+            <form onSubmit={handleSubmitReview} style={{ marginTop: '2rem', paddingTop: '2rem', borderTop: '2px dashed #e2e8f0' }}>
+              <h6 style={{ fontWeight: 700, marginBottom: '1rem', color: '#1e293b' }}>Leave a Review</h6>
+              <div style={{ display: 'flex', gap: '6px', marginBottom: '14px' }}>
                 {[1, 2, 3, 4, 5].map(star => (
-                  <span key={star} onClick={() => setNewReview(p => ({ ...p, rating: star }))} style={{ cursor: 'pointer', fontSize: '1.5rem', color: star <= newReview.rating ? '#f59e0b' : '#d1d5db', transition: 'color 0.15s' }}>
+                  <span key={star} onClick={() => setNewReview(p => ({ ...p, rating: star }))} style={{ cursor: 'pointer', fontSize: '1.75rem', color: star <= newReview.rating ? '#f59e0b' : '#e2e8f0', transition: 'all 0.2s transform' }}
+                    onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.2)'}
+                    onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}>
                     ★
                   </span>
                 ))}
               </div>
-              <textarea placeholder="Share your experience..." value={newReview.comment} onChange={(e) => setNewReview(p => ({ ...p, comment: e.target.value }))} rows={3} style={{ width: '100%', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '12px', fontSize: '0.9rem', outline: 'none', resize: 'vertical', fontFamily: 'inherit' }} />
-              <button type="submit" style={{ marginTop: '10px', background: 'var(--primary)', color: 'white', border: 'none', padding: '10px 24px', borderRadius: '50px', fontWeight: 600, cursor: 'pointer' }}>Submit Review</button>
+              <textarea placeholder="Tell us about your experience with the doctor..." value={newReview.comment} onChange={(e) => setNewReview(p => ({ ...p, comment: e.target.value }))} rows={3} style={{ width: '100%', border: '1px solid #e2e8f0', borderRadius: '14px', padding: '14px', fontSize: '0.95rem', outline: 'none', resize: 'vertical', fontFamily: 'inherit', background: '#f8fafc' }} />
+              <button type="submit" style={{ marginTop: '12px', background: 'var(--primary)', color: 'white', border: 'none', padding: '12px 28px', borderRadius: '50px', fontWeight: 700, cursor: 'pointer', boxShadow: '0 4px 12px rgba(108,99,255,0.2)' }}>Post Review</button>
             </form>
           </div>
         </div>
@@ -139,36 +155,37 @@ function DoctorProfile() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           {/* ACTION BUTTONS */}
           <div style={{ background: 'white', borderRadius: '16px', padding: '1.5rem', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
-            <button onClick={() => setIsFavorite(!isFavorite)} style={{ width: '100%', padding: '12px', borderRadius: '12px', border: `2px solid ${isFavorite ? '#ef4444' : '#e2e8f0'}`, background: isFavorite ? '#fef2f210' : 'white', color: isFavorite ? '#ef4444' : 'var(--text-muted)', fontWeight: 600, cursor: 'pointer', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', transition: 'all 0.2s' }}>
-              {isFavorite ? '♥ Saved to Favorites' : '♡ Add to Favorites'}
+            <button onClick={() => setIsFavorite(!isFavorite)} style={{ width: '100%', padding: '12px', borderRadius: '12px', border: `2px solid ${isFavorite ? '#ef4444' : '#f1f5f9'}`, background: isFavorite ? '#fef2f2' : 'white', color: isFavorite ? '#ef4444' : '#64748b', fontWeight: 700, cursor: 'pointer', marginBottom: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', transition: 'all 0.2s' }}>
+              {isFavorite ? '♥ Saved' : '♡ Add to Favorites'}
             </button>
-            <button style={{ width: '100%', padding: '12px', borderRadius: '12px', border: '2px solid #e2e8f0', background: 'white', color: 'var(--primary)', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+            <button style={{ width: '100%', padding: '12px', borderRadius: '12px', border: '2px solid #f1f5f9', background: 'white', color: 'var(--primary)', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
               ✉ Message Doctor
             </button>
           </div>
 
           {/* APPOINTMENT BOOKING */}
-          <div style={{ background: 'white', borderRadius: '16px', padding: '1.5rem', boxShadow: '0 2px 8px rgba(0,0,0,0.04)', position: 'sticky', top: '100px' }}>
-            <h5 style={{ fontWeight: 700, marginBottom: '1rem' }}>Book Appointment</h5>
-            <div style={{ marginBottom: '1rem' }}>
-              <label style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-muted)', display: 'block', marginBottom: '6px' }}>Select Date</label>
-              <input type="date" style={{ width: '100%', padding: '10px 12px', borderRadius: '10px', border: '1px solid #e2e8f0', fontSize: '0.9rem', outline: 'none' }} />
-            </div>
+          <div style={{ background: 'white', borderRadius: '16px', padding: '1.5rem', boxShadow: '0 8px 30px rgba(0,0,0,0.06)', position: 'sticky', top: '100px', border: '1px solid #f1f5f9' }}>
+            <h5 style={{ fontWeight: 800, marginBottom: '1.25rem', color: '#1e293b' }}>Book Session</h5>
             <div style={{ marginBottom: '1.25rem' }}>
-              <label style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-muted)', display: 'block', marginBottom: '8px' }}>Available Slots</label>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+              <label style={{ fontSize: '0.8rem', fontWeight: 700, color: '#64748b', display: 'block', marginBottom: '8px', textTransform: 'uppercase' }}>Select Date</label>
+              <input type="date" style={{ width: '100%', padding: '12px', borderRadius: '10px', border: '1px solid #e2e8f0', fontSize: '0.95rem', outline: 'none', background: '#f8fafc' }} />
+            </div>
+            <div style={{ marginBottom: '1.5rem' }}>
+              <label style={{ fontSize: '0.8rem', fontWeight: 700, color: '#64748b', display: 'block', marginBottom: '10px', textTransform: 'uppercase' }}>Available Slots</label>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                 {doctor.slots.map(slot => (
-                  <button key={slot} onClick={() => setSelectedSlot(slot)} style={{ padding: '10px', borderRadius: '10px', border: selectedSlot === slot ? '2px solid var(--primary)' : '1px solid #e2e8f0', background: selectedSlot === slot ? 'rgba(108,99,255,0.1)' : 'white', color: selectedSlot === slot ? 'var(--primary)' : 'var(--text-main)', fontWeight: 600, fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.2s' }}>
+                  <button key={slot} onClick={() => setSelectedSlot(slot)} style={{ padding: '12px', borderRadius: '10px', border: selectedSlot === slot ? '2px solid var(--primary)' : '1px solid #e2e8f0', background: selectedSlot === slot ? 'rgba(108,99,255,0.08)' : 'white', color: selectedSlot === slot ? 'var(--primary)' : '#475569', fontWeight: 700, fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.2s' }}>
                     {slot}
                   </button>
                 ))}
               </div>
             </div>
-            <button onClick={handleBookAppointment} style={{ width: '100%', padding: '14px', borderRadius: '12px', background: 'var(--primary)', color: 'white', border: 'none', fontWeight: 700, fontSize: '1rem', cursor: 'pointer', boxShadow: '0 8px 20px rgba(108,99,255,0.3)', transition: 'transform 0.2s' }}
-              onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-2px)'}
-              onMouseLeave={e => e.currentTarget.style.transform = ''}>
-              Book Appointment - ₹{doctor.fee}
+            <button onClick={handleBookAppointment} style={{ width: '100%', padding: '16px', borderRadius: '14px', background: 'linear-gradient(135deg, #6C63FF, #8B5CF6)', color: 'white', border: 'none', fontWeight: 800, fontSize: '1.05rem', cursor: 'pointer', boxShadow: '0 10px 25px rgba(108,99,255,0.3)', transition: 'all 0.3s' }}
+              onMouseEnter={e => {e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 15px 30px rgba(108,99,255,0.4)';}}
+              onMouseLeave={e => {e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 10px 25px rgba(108,99,255,0.3)';}}>
+              Book for ₹{doctor.fee}
             </button>
+            <p style={{ textAlign: 'center', fontSize: '0.75rem', color: '#94a3b8', marginTop: '1rem', marginBotttom: 0 }}>Instant confirmation • Secure Payment</p>
           </div>
         </div>
       </div>
