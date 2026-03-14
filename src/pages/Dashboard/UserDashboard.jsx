@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import PageNavigation from '../../components/layout/PageNavigation';
-import { Heart, Send, Star, Calendar, MessageSquare, Pill, BarChart2, BookOpen, Settings, HelpCircle, StarOfLife } from 'lucide-react';
+import { Heart, Send, Star, Calendar, MessageSquare, Pill, BarChart2, BookOpen, Settings, HelpCircle, StarOfLife, CreditCard } from 'lucide-react';
+import PaymentHistory from './PaymentHistory';
 
-function UserDashboard({ authUser, onLogout, consultants, appointments, setAppointments, prescriptions, forums, reviews, setReviews }) {
+function UserDashboard({ authUser, onLogout, consultants, appointments, setAppointments, prescriptions, forums, reviews, setReviews, payments }) {
   const [view, setView] = useState("home");
   const [bookingData, setBookingData] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -90,6 +91,9 @@ function UserDashboard({ authUser, onLogout, consultants, appointments, setAppoi
         </div>
         <div className={`sidebar-nav-item ${view === "assessments" ? "active" : ""}`} onClick={() => setView("assessments")}>
           Assessments
+        </div>
+        <div className={`sidebar-nav-item ${view === "payments" ? "active" : ""}`} onClick={() => setView("payments")}>
+           Payment History
         </div>
         <div style={{ marginTop: "auto", paddingTop: "40px" }} className="px-3">
           <div className="sidebar-nav-item text-danger fw-bold" onClick={onLogout}>
@@ -613,6 +617,10 @@ function UserDashboard({ authUser, onLogout, consultants, appointments, setAppoi
               </div>
             )}
           </div>
+        )}
+
+        {view === "payments" && (
+          <PaymentHistory payments={payments} authUser={authUser} />
         )}
 
         <PageNavigation />

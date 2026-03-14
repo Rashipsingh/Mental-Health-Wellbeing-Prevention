@@ -9,14 +9,11 @@ function ConsultantRegistration({ consultants, setConsultants }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const aiScore = Math.floor(Math.random() * 15) + 85;
-
-    // Check if consultant with same email exists
     const existing = consultants.find(c => c.email === formData.email);
     if (!existing) {
       setConsultants(prev => [...prev, {
         id: Date.now(), name: formData.fullName, ...formData, status: "Pending",
-        aiEvaluation: { score: aiScore, notes: `Documents Authenticated. Screening criteria passed with ${aiScore}% confidence.` },
+        evaluation: { status: "Pending Review", notes: "Documents submitted and awaiting verification." },
         feedback: ""
       }]);
     }

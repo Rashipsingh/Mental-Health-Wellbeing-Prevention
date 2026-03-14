@@ -29,7 +29,7 @@ function DoctorProfile() {
 
   const handleBookAppointment = () => {
     if (!selectedSlot) return alert('Please select a time slot');
-    setShowBookingConfirm(true);
+    navigate('/payment', { state: { doctor, slot: selectedSlot, date: new Date().toISOString().split('T')[0] } });
   };
 
   const handleSubmitReview = (e) => {

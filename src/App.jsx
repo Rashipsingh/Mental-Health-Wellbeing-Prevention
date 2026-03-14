@@ -20,6 +20,9 @@ import HospitalDetail from './pages/Hospital/HospitalDetail';
 import PharmacyPage from './pages/Pharmacy/PharmacyPage';
 import HealthBlog from './pages/Landing/HealthBlog';
 import ArticleDetail from './pages/Landing/ArticleDetail';
+import CheckoutPage from './pages/Payment/CheckoutPage';
+import PaymentSuccessPage from './pages/Payment/PaymentSuccessPage';
+import PaymentFailurePage from './pages/Payment/PaymentFailurePage';
 
 // Constants
 import { initialForums } from './constants/initialState';
@@ -48,6 +51,11 @@ function App() {
     return saved ? JSON.parse(saved) : [];
   });
 
+  const [payments, setPayments] = useState(() => {
+    const saved = localStorage.getItem("payments");
+    return saved ? JSON.parse(saved) : [];
+  });
+
   const [forums, setForums] = useState(initialForums);
 
   const [authUser, setAuthUser] = useState(() => {
@@ -60,6 +68,7 @@ function App() {
   useEffect(() => localStorage.setItem("appointments", JSON.stringify(appointments)), [appointments]);
   useEffect(() => localStorage.setItem("prescriptions", JSON.stringify(prescriptions)), [prescriptions]);
   useEffect(() => localStorage.setItem("reviews", JSON.stringify(reviews)), [reviews]);
+  useEffect(() => localStorage.setItem("payments", JSON.stringify(payments)), [payments]);
   useEffect(() => localStorage.setItem("authUser", JSON.stringify(authUser)), [authUser]);
 
   return (
@@ -93,14 +102,21 @@ function App() {
                 setForums={setForums}
                 reviews={reviews}
                 setReviews={setReviews}
+                payments={payments}
               /> : <Navigate to="/user" />
             } />
 
             {/* Consultant Flows */}
             <Route path="/consultant" element={<ConsultantRegistration consultants={consultants} setConsultants={setConsultants} />} />
 
+            {/* Payment Flow */}
+            <Route path="/payment" element={<CheckoutPage setAppointments={setAppointments} setPayments={setPayments} authUser={authUser} />} />
+            <Route path="/checkout" element={<CheckoutPage setAppointments={setAppointments} setPayments={setPayments} authUser={authUser} />} />
+            <Route path="/payment/success" element={<PaymentSuccessPage />} />
+            <Route path="/payment/failure" element={<PaymentFailurePage />} />
+
             {/* Admin Flow */}
-            <Route path="/admin" element={<Admin consultants={consultants} setConsultants={setConsultants} reviews={reviews} setReviews={setReviews} />} />
+            <Route path="/admin" element={<Admin consultants={consultants} setConsultants={setConsultants} reviews={reviews} setReviews={setReviews} payments={payments} setPayments={setPayments} />} />
           </Routes>
         </div>
       </Router>

@@ -12,6 +12,7 @@ function TopNavbar({ authUser }) {
     { label: 'Doctors', path: '/search', dropdown: [
       { label: 'Find Doctors', path: '/search' },
       { label: 'Browse by Specialty', path: '/search?specialty=All' },
+      { label: 'Join as Doctor', path: '/consultant' },
     ]},
     { label: 'Hospitals', path: '/search?tab=hospitals', dropdown: [
       { label: 'All Hospitals', path: '/search?tab=hospitals' },

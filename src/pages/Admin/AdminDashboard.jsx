@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PageNavigation from '../../components/layout/PageNavigation';
-import { Mail, Star, Users, Briefcase, MessageSquare, BarChart2, Settings, ArrowLeft } from 'lucide-react';
+import { Mail, Star, Users, Briefcase, MessageSquare, BarChart2, Settings, ArrowLeft, CreditCard, Search, ExternalLink } from 'lucide-react';
 
-function Admin({ consultants, setConsultants, reviews, setReviews }) {
+function Admin({ consultants, setConsultants, reviews, setReviews, payments, setPayments }) {
   const navigate = useNavigate();
   const [selectedConsultant, setSelectedConsultant] = useState(null);
   const [adminView, setAdminView] = useState("consultants");
@@ -404,6 +404,75 @@ function Admin({ consultants, setConsultants, reviews, setReviews }) {
             </div>
           </div>
         );
+      case "payments":
+        return (
+          <div className="fade-in w-100">
+            <h5 className="fw-bold text-main mb-4">Financial Oversight</h5>
+            
+            <div className="row g-4 mb-5">
+              <div className="col-md-4">
+                <div className="klues-panel p-4 text-center">
+                  <div className="fw-bold text-muted small text-uppercase">Total Revenue</div>
+                  <div className="fs-2 fw-bold text-primary mt-2">₹{(payments || []).reduce((sum, p) => sum + p.amount, 0).toLocaleString()}</div>
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="klues-panel p-4 text-center">
+                  <div className="fw-bold text-muted small text-uppercase">Doctors Share</div>
+                  <div className="fs-2 fw-bold text-success mt-2">₹{(payments || []).filter(p => p.type === 'Doctor').reduce((sum, p) => sum + p.amount, 0).toLocaleString()}</div>
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="klues-panel p-4 text-center">
+                  <div className="fw-bold text-muted small text-uppercase">Pharmacy Sales</div>
+                  <div className="fs-2 fw-bold text-info mt-2">₹{(payments || []).filter(p => p.type === 'Pharmacy').reduce((sum, p) => sum + p.amount, 0).toLocaleString()}</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="klues-panel p-0 overflow-hidden">
+              <div className="table-responsive">
+                <table className="table mb-0 w-100">
+                  <thead className="bg-light">
+                    <tr>
+                      <th className="px-4 py-3 border-0 small text-muted fw-bold">TXN ID</th>
+                      <th className="px-4 py-3 border-0 small text-muted fw-bold">User</th>
+                      <th className="px-4 py-3 border-0 small text-muted fw-bold">Purpose</th>
+                      <th className="px-4 py-3 border-0 small text-muted fw-bold">Method</th>
+                      <th className="px-4 py-3 border-0 small text-muted fw-bold">Amount</th>
+                      <th className="px-4 py-3 border-0 small text-muted fw-bold">Status</th>
+                      <th className="px-4 py-3 border-0 small text-muted fw-bold text-end">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {(!payments || payments.length === 0) ? (
+                      <tr><td colSpan="7" className="text-center text-muted py-5">No payments found.</td></tr>
+                    ) : payments.map(p => (
+                      <tr key={p.id} style={{ borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
+                        <td className="px-4 py-3 align-middle fw-bold small text-muted">#{p.transactionId.slice(-8)}</td>
+                        <td className="px-4 py-3 align-middle fw-bold">{p.userName}</td>
+                        <td className="px-4 py-3 align-middle">
+                          <span className={`badge rounded-pill px-2 py-1 small ${p.type === 'Pharmacy' ? 'bg-info bg-opacity-10 text-info' : 'bg-primary bg-opacity-10 text-primary'}`}>
+                            {p.type}
+                          </span>
+                          <div className="small text-muted mt-1">{p.purpose}</div>
+                        </td>
+                        <td className="px-4 py-3 align-middle text-capitalize">{p.method}</td>
+                        <td className="px-4 py-3 align-middle fw-bold">₹{p.amount}</td>
+                        <td className="px-4 py-3 align-middle">
+                          <span className="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-2 fw-medium">
+                            {p.status}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 align-middle text-end text-muted small">{p.date}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        );
       default: return null;
     }
   };
@@ -431,6 +500,9 @@ function Admin({ consultants, setConsultants, reviews, setReviews }) {
         </div>
         <div className={`sidebar-nav-item ${adminView === "emails" ? "active" : ""}`} onClick={() => setAdminView("emails")} style={{ cursor: "pointer" }}>
           Email Templates
+        </div>
+        <div className={`sidebar-nav-item ${adminView === "payments" ? "active" : ""}`} onClick={() => setAdminView("payments")} style={{ cursor: "pointer" }}>
+          Payments
         </div>
         <div className={`sidebar-nav-item ${adminView === "settings" ? "active" : ""}`} onClick={() => setAdminView("settings")} style={{ cursor: "pointer" }}>
           Settings

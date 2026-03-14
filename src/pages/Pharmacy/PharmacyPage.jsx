@@ -1,9 +1,11 @@
 import React, { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Breadcrumb from '../../components/common/Breadcrumb';
 import { medicines, pharmacyCategories } from '../../constants/mockData';
 import { ShoppingCart, FileText, Search, X, ArrowLeft, Plus } from 'lucide-react';
 
 function PharmacyPage() {
+  const navigate = useNavigate();
   const [category, setCategory] = useState('All');
   const [searchQ, setSearchQ] = useState('');
   const [cart, setCart] = useState([]);
@@ -140,7 +142,12 @@ function PharmacyPage() {
                         <div style={{ color: '#64748b', fontWeight: 600, marginBottom: '4px' }}>Subtotal</div>
                         <div style={{ fontSize: '1.75rem', fontWeight: 900, color: '#1e293b' }}>₹{cartTotal.toFixed(2)}</div>
                     </div>
-                    <button style={{ background: '#059669', color: 'white', border: 'none', padding: '16px 48px', borderRadius: '16px', fontWeight: 800, fontSize: '1.1rem', cursor: 'pointer', boxShadow: '0 10px 25px rgba(5,150,105,0.3)' }}>Place Order</button>
+                    <button 
+                      onClick={() => navigate('/checkout', { state: { type: 'Pharmacy', items: cart, total: cartTotal } })}
+                      style={{ background: '#059669', color: 'white', border: 'none', padding: '16px 48px', borderRadius: '16px', fontWeight: 800, fontSize: '1.1rem', cursor: 'pointer', boxShadow: '0 10px 25px rgba(5,150,105,0.3)' }}
+                    >
+                      Place Order
+                    </button>
                   </div>
                 </>
               )}

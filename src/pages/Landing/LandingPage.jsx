@@ -239,13 +239,58 @@ function LandingPage() {
         </div>
       </section>
 
+      {/* ===== DOCTOR CTA ===== */}
+      <section style={{ padding: '5rem 5%', background: '#f8fafc', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'center' }}>
+          <div>
+            <h2 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '1.5rem', color: 'var(--primary)' }}>Join as a Professional</h2>
+            <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)', marginBottom: '2.5rem', lineHeight: 1.6 }}>
+              Join our growing network of healthcare professionals. Manage your appointments, connect with patients, and grow your practice with our advanced digital tools.
+            </p>
+            <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(108,99,255,0.1)', color: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Activity size={20} />
+                </div>
+                <span style={{ fontWeight: 600 }}>Practice Growth</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(16,185,129,0.1)', color: '#10b981', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Star size={20} />
+                </div>
+                <span style={{ fontWeight: 600 }}>Verified Reviews</span>
+              </div>
+            </div>
+            <button className="klues-btn klues-btn-primary" style={{ marginTop: '2.5rem', padding: '1rem 3rem' }} onClick={() => navigate('/consultant')}>
+              Join Our Organization <ArrowRight size={20} />
+            </button>
+          </div>
+          <div style={{ background: 'linear-gradient(135deg, #6C63FF10, #8B5CF610)', borderRadius: '30px', padding: '3rem', position: 'relative', overflow: 'hidden' }}>
+            <div style={{ position: 'relative', zIndex: 1 }}>
+              <h4 style={{ fontWeight: 700, marginBottom: '1rem' }}>Start Today</h4>
+              <p style={{ color: 'var(--text-muted)' }}>Simple registration, quick verification, and your profile goes live in 24 hours.</p>
+              <div style={{ marginTop: '2rem', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ padding: '12px 20px', background: 'white', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.04)', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--primary)' }}></div>
+                  <span style={{ fontSize: '0.9rem', fontWeight: 500 }}>Upload Credentials</span>
+                </div>
+                <div style={{ padding: '12px 20px', background: 'white', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.04)', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--primary)' }}></div>
+                  <span style={{ fontSize: '0.9rem', fontWeight: 500 }}>Accept Appointments</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ===== CTA ===== */}
       <section style={{ padding: '5rem 5%', background: 'linear-gradient(135deg, #6C63FF, #8B5CF6)', textAlign: 'center', color: 'white' }}>
         <h2 style={{ fontSize: '2.25rem', fontWeight: 700, marginBottom: '1rem' }}>Ready to Take Control of Your Health?</h2>
         <p style={{ opacity: 0.85, maxWidth: '550px', margin: '0 auto 2rem', lineHeight: 1.7 }}>Join thousands of patients who trust our platform to find the best healthcare providers and manage their wellbeing.</p>
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
           <button className="klues-btn d-flex align-items-center gap-2" style={{ background: 'white', color: 'var(--primary)', fontWeight: 700 }} onClick={() => navigate('/user')}>
-            Get Started Free <ArrowRight size={18} />
+            Get Started <ArrowRight size={18} />
           </button>
           <button className="klues-btn" style={{ background: 'rgba(255,255,255,0.15)', color: 'white', border: '1px solid rgba(255,255,255,0.3)' }} onClick={() => navigate('/search')}>
             Browse Doctors
